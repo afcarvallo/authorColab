@@ -1,0 +1,11 @@
+# Entorno virtual Python
+venv/
+
+# Base de datos
+db/
+
+# Archivos pesados del backend (modelos, .h5, .pkl)
+Backend/archivos_para_el_backend/
+
+# macOS
+.DS_Store

@@ -87,14 +87,14 @@ const ListaInstitucionesDesplegable = () => {
   const textoFiltros = () => {
     const partes = [];
     if (consulta) partes.push(`"${consulta}"`);
-    if (filtros.autor) partes.push(`Autor: ${filtros.autor}`);
+    if (filtros.autor) partes.push(`Author: ${filtros.autor}`);
     if (filtros.anioDesde || filtros.anioHasta) {
-      partes.push(`Años: ${filtros.anioDesde || ''}-${filtros.anioHasta || ''}`);
+      partes.push(`Years: ${filtros.anioDesde || ''}-${filtros.anioHasta || ''}`);
     }
     if (filtros.accesoAbierto !== undefined) {
-      partes.push(filtros.accesoAbierto ? 'Acceso abierto' : 'Acceso restringido');
+      partes.push(filtros.accesoAbierto ? 'Open access' : 'Restricted access');
     }
-    if (filtros.citasMinimas) partes.push(`Mín. ${filtros.citasMinimas} citas`);
+    if (filtros.citasMinimas) partes.push(`Min. ${filtros.citasMinimas} citations`);
     
     return partes.length > 0 ? ` (${partes.join(', ')})` : '';
   };
@@ -116,10 +116,10 @@ const ListaInstitucionesDesplegable = () => {
         <div className="flex justify-between items-center">
           <div>
             <h3 className="font-semibold text-gray-800 text-lg">
-              🏛️ Instituciones encontradas
+              🏛️ Institutions found
             </h3>
             <p className="text-sm text-gray-600 mt-1">
-              {instituciones.length} instituciones{textoFiltros()}
+              {instituciones.length} institutions{textoFiltros()}
             </p>
           </div>
           <div className="flex items-center space-x-2">
@@ -159,7 +159,7 @@ const ListaInstitucionesDesplegable = () => {
                       </h4>
                       {!institucion.tiene_geo && (
                         <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                          Sin ubicación
+                          No location
                         </span>
                       )}
                     </div>
@@ -167,7 +167,7 @@ const ListaInstitucionesDesplegable = () => {
                     <div className="flex flex-wrap gap-2 text-sm text-gray-600 mb-2">
                       <span className="flex items-center space-x-1">
                         <span>📚</span>
-                        <span>{institucion.total_trabajos} trabajos</span>
+                        <span>{institucion.total_trabajos} works</span>
                       </span>
                       
                       {institucion.geo?.city && (
@@ -192,16 +192,16 @@ const ListaInstitucionesDesplegable = () => {
                     {formatearSimilitud(institucion) && (
                       <div className="flex items-center space-x-2 text-sm">
                         <span className="font-medium text-green-600 bg-green-50 px-2 py-1 rounded">
-                          Relevancia: {formatearSimilitud(institucion)}
+                          Relevance: {formatearSimilitud(institucion)}
                         </span>
                         {ponderaciones.peso_titulo > 0 && (
                           <span className="text-blue-600">
-                            Título: {(ponderaciones.peso_titulo * 100).toFixed(0)}%
+                            Title: {(ponderaciones.peso_titulo * 100).toFixed(0)}%
                           </span>
                         )}
                         {ponderaciones.peso_conceptos > 0 && (
                           <span className="text-purple-600">
-                            Conceptos: {(ponderaciones.peso_conceptos * 100).toFixed(0)}%
+                            Concepts: {(ponderaciones.peso_conceptos * 100).toFixed(0)}%
                           </span>
                         )}
                       </div>
@@ -214,7 +214,7 @@ const ListaInstitucionesDesplegable = () => {
                     </span>
                     {institucion.trabajos_ejemplo && institucion.trabajos_ejemplo.length > 0 && (
                       <span className="text-xs text-gray-500">
-                        {institucion.trabajos_ejemplo.length} ejemplos
+                        {institucion.trabajos_ejemplo.length} samples
                       </span>
                     )}
                   </div>
@@ -224,7 +224,7 @@ const ListaInstitucionesDesplegable = () => {
                 <div className="hidden group-hover:block mt-2">
                   {institucion.trabajos_ejemplo && institucion.trabajos_ejemplo.length > 0 && (
                     <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded">
-                      <span className="font-medium">Trabajos ejemplo:</span>
+                      <span className="font-medium">Sample works:</span>
                       <div className="mt-1 space-y-1">
                         {institucion.trabajos_ejemplo.slice(0, 2).map((trabajoId, idx) => (
                           <div key={idx} className="truncate">
@@ -233,7 +233,7 @@ const ListaInstitucionesDesplegable = () => {
                         ))}
                         {institucion.trabajos_ejemplo.length > 2 && (
                           <div className="text-gray-400">
-                            ...y {institucion.trabajos_ejemplo.length - 2} más
+                            ...and {institucion.trabajos_ejemplo.length - 2} more
                           </div>
                         )}
                       </div>
@@ -250,7 +250,7 @@ const ListaInstitucionesDesplegable = () => {
                   onClick={cargarMasInstituciones}
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
                 >
-                  Cargar más instituciones ({institucionesOrdenadas.length - institucionesVisibles} restantes)
+                  Load more institutions ({institucionesOrdenadas.length - institucionesVisibles} remaining)
                 </button>
               </div>
             )}

@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { DataSet, Network } from 'vis-network/standalone';
 import 'vis-network/styles/vis-network.css';
 
 const GraphVisualization = ({ graphData, graphOptions }) => {
   const networkRef = useRef(null);
   const graphContainerRef = useRef(null);
-  const [networkData, setNetworkData] = useState(null);
 
   useEffect(() => {
     if (!graphData || !graphContainerRef.current) return;
@@ -95,7 +94,7 @@ const GraphVisualization = ({ graphData, graphOptions }) => {
         backgroundColor: '#222222',
         color: 'white'
       }}>
-        No hay datos de grafo disponibles
+        No graph data available
       </div>
     );
   }

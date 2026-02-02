@@ -9,7 +9,7 @@ const Sidebar = () => {
     <div className="w-80 bg-gray-800 text-white flex flex-col flex-shrink-0 border-r border-gray-700 h-full">
       {/* Header del Sidebar - Fijo */}
       <div className="flex-shrink-0 p-4 bg-gray-900">
-        <h1 className="text-xl font-bold">Sistema de Búsqueda</h1>
+        <h1 className="text-xl font-bold">Search System</h1>
       </div>
 
       {/* Botones de Navegación - Fijos */}
@@ -22,7 +22,7 @@ const Sidebar = () => {
               : 'bg-gray-700 hover:bg-gray-600'
           }`}
         >
-          Buscar Obras
+          Search Works
         </button>
         <button
           onClick={() => setActiveTab('search2')}
@@ -32,7 +32,7 @@ const Sidebar = () => {
               : 'bg-gray-700 hover:bg-gray-600'
           }`}
         >
-          Buscar Autores
+          Search Authors
         </button>
       </div>
 

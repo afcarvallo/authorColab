@@ -38,6 +38,7 @@ export function InstitucionesContextProvider(props) {
 
 */}
 
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useMemo } from 'react'
 
 export const InstitucionesContext = createContext();

@@ -8,22 +8,22 @@ const AuthorFilterForm2 = () => {
 
   // Lista de países
   const countries = [
-    'Todos', 'Argentina', 'Brasil', 'Canadá', 'Chile', 'Colombia', 
-    'España', 'Estados Unidos', 'Francia', 'México', 'Perú', 'Reino Unido'
+    'All', 'Argentina', 'Brazil', 'Canada', 'Chile', 'Colombia', 
+    'Spain', 'United States', 'France', 'Mexico', 'Peru', 'United Kingdom'
   ];
 
   // Lista de instituciones
   const institutions = [
-    'Todas', 'Universidad de Buenos Aires', 'Universidad Nacional Autónoma de México',
-    'Universidad de São Paulo', 'Harvard University', 'MIT', 'Stanford University'
+    'All', 'University of Buenos Aires', 'National Autonomous University of Mexico',
+    'University of Sao Paulo', 'Harvard University', 'MIT', 'Stanford University'
   ];
 
   // Estados locales del formulario
   const [authorName, setAuthorName] = useState('');
   const [similarAuthorsCount, setSimilarAuthorsCount] = useState(5);
-  const [selectedCountry, setSelectedCountry] = useState('Todos');
+  const [selectedCountry, setSelectedCountry] = useState('All');
   const [gender, setGender] = useState('all genders');
-  const [selectedInstitution, setSelectedInstitution] = useState('Todas');
+  const [selectedInstitution, setSelectedInstitution] = useState('All');
   const [degree, setDegree] = useState(1);
 
   const handleSubmit = async (e) => {
@@ -33,9 +33,9 @@ const AuthorFilterForm2 = () => {
     const filters = {
       authorName,
       similarAuthorsCount,
-      country: selectedCountry === 'Todos' ? null : selectedCountry,
+      country: selectedCountry === 'All' ? null : selectedCountry,
       gender: gender === 'all genders' ? null : gender,
-      institution: selectedInstitution === 'Todas' ? null : selectedInstitution,
+      institution: selectedInstitution === 'All' ? null : selectedInstitution,
       degree
     };
 
@@ -47,29 +47,29 @@ const AuthorFilterForm2 = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4 text-green-300">
-        Filtrar Autores Similares
+        Filter Similar Authors
       </h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Nombre del Autor */}
+        {/* Author name */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Nombre del Autor
+            Author name
           </label>
           <input
             type="text"
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
-            placeholder="Ingrese el nombre del autor"
+            placeholder="Enter the author's name"
             required
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
-        {/* Cantidad de Autores Similares */}
+        {/* Number of similar authors */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Cantidad de Autores Similares
+            Number of Similar Authors
           </label>
           <input
             type="number"
@@ -81,10 +81,10 @@ const AuthorFilterForm2 = () => {
           />
         </div>
 
-        {/* País */}
+        {/* Country */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            País
+            Country
           </label>
           <select
             value={selectedCountry}
@@ -99,10 +99,10 @@ const AuthorFilterForm2 = () => {
           </select>
         </div>
 
-        {/* Género */}
+        {/* Gender */}
         <div>
           <label className="block text-sm font-medium mb-2 text-gray-300">
-            Género
+            Gender
           </label>
           <div className="space-y-2">
             <label className="flex items-center">
@@ -113,7 +113,7 @@ const AuthorFilterForm2 = () => {
                 onChange={() => setGender('all genders')}
                 className="text-green-500"
               />
-              <span className="ml-2 text-gray-300">Todos los géneros</span>
+              <span className="ml-2 text-gray-300">All genders</span>
             </label>
             <label className="flex items-center">
               <input
@@ -123,7 +123,7 @@ const AuthorFilterForm2 = () => {
                 onChange={() => setGender('male')}
                 className="text-green-500"
               />
-              <span className="ml-2 text-gray-300">Masculino</span>
+              <span className="ml-2 text-gray-300">Male</span>
             </label>
             <label className="flex items-center">
               <input
@@ -133,15 +133,15 @@ const AuthorFilterForm2 = () => {
                 onChange={() => setGender('female')}
                 className="text-green-500"
               />
-              <span className="ml-2 text-gray-300">Femenino</span>
+              <span className="ml-2 text-gray-300">Female</span>
             </label>
           </div>
         </div>
 
-        {/* Institución */}
+        {/* Institution */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Institución
+            Institution
           </label>
           <select
             value={selectedInstitution}
@@ -156,10 +156,10 @@ const AuthorFilterForm2 = () => {
           </select>
         </div>
 
-        {/* Grado */}
+        {/* Degree */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Grado
+            Degree
           </label>
           <input
             type="number"
@@ -171,14 +171,14 @@ const AuthorFilterForm2 = () => {
           />
         </div>
 
-        {/* Botón de envío */}
+        {/* Submit button */}
         <div className="pt-4">
           <button 
             type="submit" 
             disabled={loading}
             className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-800 text-white py-2 px-4 rounded-md transition-colors font-medium"
           >
-            {loading ? 'Buscando...' : 'Find Similar Authors'}
+            {loading ? 'Searching...' : 'Find Similar Authors'}
           </button>
         </div>
       </form>

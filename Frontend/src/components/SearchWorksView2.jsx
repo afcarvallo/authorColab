@@ -36,7 +36,7 @@ function SearchWorksView() {
           <details className="group">
             <summary className="flex justify-between items-center p-4 cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
               <h3 className="font-semibold text-lg">
-                Instituciones sin ubicación
+                Institutions without location
               </h3>
               <span className="transform group-open:rotate-180 transition-transform">
                 ▲

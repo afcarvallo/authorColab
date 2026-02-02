@@ -76,7 +76,7 @@ const ListaTrabajos = () => {
         params.append('peso_titulo', pesoTituloRedondeado);
         params.append('peso_conceptos', pesoConceptosRedondeado);
 
-        console.log('Ponderaciones enviadas para trabajos:', {
+        console.log('Sent weights for works:', {
           titulo: pesoTituloRedondeado,
           conceptos: pesoConceptosRedondeado
         });
@@ -103,14 +103,14 @@ const ListaTrabajos = () => {
           ? `${BACKEND_URL}/api/institucion/${encodeURIComponent(instId)}/trabajos${queryString ? `?${queryString}` : ''}`
           : `${BACKEND_URL}/api/institucion/${encodeURIComponent(paisSeleccionado)}/${encodeURIComponent(instId)}/trabajos${queryString ? `?${queryString}` : ''}`;
 
-        console.log('Cargando trabajos con URL:', url);
-        console.log('Filtros aplicados:', filtros);
-        console.log('Ponderaciones:', ponderaciones);
+        console.log('Loading works with URL:', url);
+        console.log('Applied filters:', filtros);
+        console.log('Weights:', ponderaciones);
 
         const response = await fetch(url);
         
         if (!response.ok) {
-          throw new Error('Error al cargar trabajos');
+          throw new Error('Error loading works');
         }
         
         const data = await response.json();
@@ -141,26 +141,26 @@ const ListaTrabajos = () => {
     const partes = [];
     
     if (filtros.autor) {
-      partes.push(`Autor: "${filtros.autor}"`);
+      partes.push(`Author: "${filtros.autor}"`);
     }
     
     if (filtros.anioDesde || filtros.anioHasta) {
       const desde = filtros.anioDesde || '1900';
       const hasta = filtros.anioHasta || new Date().getFullYear();
-      partes.push(`Años: ${desde}-${hasta}`);
+      partes.push(`Years: ${desde}-${hasta}`);
     }
     
     if (filtros.accesoAbierto !== undefined && filtros.accesoAbierto !== '') {
-      partes.push(filtros.accesoAbierto === 'true' ? 'Acceso abierto' : 'Acceso restringido');
+      partes.push(filtros.accesoAbierto === 'true' ? 'Open access' : 'Restricted access');
     }
     
     if (filtros.citasMinimas) {
-      partes.push(`Mín. ${filtros.citasMinimas} citas`);
+      partes.push(`Min. ${filtros.citasMinimas} citations`);
     }
 
     // Agregar información de ponderación
     if (consulta) {
-      partes.push(`Ponderación: Título ${(ponderaciones.peso_titulo * 100).toFixed(0)}% / Conceptos ${(ponderaciones.peso_conceptos * 100).toFixed(0)}%`);
+      partes.push(`Weighting: Title ${(ponderaciones.peso_titulo * 100).toFixed(0)}% / Concepts ${(ponderaciones.peso_conceptos * 100).toFixed(0)}%`);
     }
     
     return partes.join(', ');
@@ -174,7 +174,7 @@ const ListaTrabajos = () => {
   if (!institucionSeleccionada) {
     return (
       <div className="w-full h-full flex items-center justify-center p-4 text-gray-600 bg-white">
-        Selecciona una institución en el mapa para ver sus trabajos.
+        Select an institution on the map to view its works.
       </div>
     );
   }
@@ -182,7 +182,7 @@ const ListaTrabajos = () => {
   if (loading || cargandoTrabajos) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-white">
-        <div className="text-center">Cargando trabajos...</div>
+        <div className="text-center">Loading works...</div>
       </div>
     );
   }
@@ -216,10 +216,10 @@ const ListaTrabajos = () => {
       {/* Header fijo */}
       <div className="flex-shrink-0 p-4 border-b border-gray-200">
         <h2 className="text-xl font-bold mb-2">
-          Trabajos de {nombre}
+          Works from {nombre}
           {consulta && (
             <span className="text-sm font-normal text-gray-600 ml-2">
-              (Filtrados por: "{consulta}")
+              (Filtered by: "{consulta}")
             </span>
           )}
         </h2>
@@ -227,16 +227,16 @@ const ListaTrabajos = () => {
         {/* Mostrar filtros aplicados */}
         {tieneFiltros && (
           <div className="mb-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-sm">
-            <p className="font-medium text-yellow-800">Filtros aplicados:</p>
+            <p className="font-medium text-yellow-800">Applied filters:</p>
             <p className="text-yellow-700">{textoFiltros}</p>
           </div>
         )}
 
         {consulta && trabajosLocales.length > 0 && (
           <div className="p-3 bg-blue-50 rounded-lg text-sm">
-            <p>Se encontraron {trabajosLocales.length} trabajos relacionados con "{consulta}"</p>
+            <p>Found {trabajosLocales.length} works related to "{consulta}"</p>
             <p className="mt-1">
-              Resultados ordenados por relevancia (similitud con la consulta)
+              Results ordered by relevance (similarity to the query)
             </p>
           </div>
         )}
@@ -259,10 +259,10 @@ const ListaTrabajos = () => {
           <div className="w-full h-full flex items-center justify-center p-4">
             <div className="text-center text-gray-500">
               {consulta 
-                ? `No se encontraron trabajos relacionados con "${consulta}"`
+                ? `No works found related to "${consulta}"`
                 : tieneFiltros
-                ? 'No se encontraron trabajos que cumplan con los filtros aplicados'
-                : 'Esta institución no tiene trabajos registrados o no se pudieron cargar'}
+                ? 'No works match the applied filters'
+                : 'This institution has no works recorded or they could not be loaded'}
             </div>
           </div>
         )}
@@ -277,7 +277,7 @@ const ListaTrabajos = () => {
               disabled={paginaActual === 1}
               className="px-4 py-2 mx-1 border rounded-lg bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-colors"
             >
-              Anterior
+              Previous
             </button>
 
             {numerosPagina.map((numero, index) => (
@@ -303,7 +303,7 @@ const ListaTrabajos = () => {
               disabled={paginaActual === totalPaginas || totalPaginas === 0}
               className="px-4 py-2 mx-1 border rounded-lg bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-colors"
             >
-              Siguiente
+              Next
             </button>
           </div>
         </div>

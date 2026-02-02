@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 const Buscador = () => {
   const paises = {
-    TODOS: { nombre: "🌎 Todos los países de Latinoamérica", coordenadas: [-15, -60] },
+    TODOS: { nombre: "🌎 All Latin American countries", coordenadas: [-15, -60] },
     AR: { nombre: "Argentina", coordenadas: [-34.6118, -58.4173] },
     BO: { nombre: "Bolivia", coordenadas: [-16.2902, -63.5887] },
-    BR: { nombre: "Brasil", coordenadas: [-15.7797, -47.9297] },
+    BR: { nombre: "Brazil", coordenadas: [-15.7797, -47.9297] },
     CL: { nombre: "Chile", coordenadas: [-33.4489, -70.6693] },
     CO: { nombre: "Colombia", coordenadas: [4.5709, -74.2973] },
     CR: { nombre: "Costa Rica", coordenadas: [9.7489, -83.7534] },
@@ -15,14 +15,14 @@ const Buscador = () => {
     EC: { nombre: "Ecuador", coordenadas: [-0.2295, -78.5249] },
     SV: { nombre: "El Salvador", coordenadas: [13.6929, -89.2182] },
     GT: { nombre: "Guatemala", coordenadas: [14.6349, -90.5069] },
-    HT: { nombre: "Haití", coordenadas: [18.5944, -72.3074] },
+    HT: { nombre: "Haiti", coordenadas: [18.5944, -72.3074] },
     HN: { nombre: "Honduras", coordenadas: [14.0818, -87.2068] },
-    MX: { nombre: "México", coordenadas: [19.4326, -99.1332] },
+    MX: { nombre: "Mexico", coordenadas: [19.4326, -99.1332] },
     NI: { nombre: "Nicaragua", coordenadas: [12.8654, -85.2072] },
-    PA: { nombre: "Panamá", coordenadas: [8.9943, -79.5188] },
+    PA: { nombre: "Panama", coordenadas: [8.9943, -79.5188] },
     PY: { nombre: "Paraguay", coordenadas: [-25.2637, -57.5759] },
-    PE: { nombre: "Perú", coordenadas: [-12.0464, -77.0428] },
-    DO: { nombre: "República Dominicana", coordenadas: [18.4861, -69.9312] },
+    PE: { nombre: "Peru", coordenadas: [-12.0464, -77.0428] },
+    DO: { nombre: "Dominican Republic", coordenadas: [18.4861, -69.9312] },
     UY: { nombre: "Uruguay", coordenadas: [-34.9011, -56.1645] },
     VE: { nombre: "Venezuela", coordenadas: [10.4806, -66.9036] },
   };
@@ -148,7 +148,7 @@ const Buscador = () => {
     params.append('peso_titulo', pesoTituloRedondeado);
     params.append('peso_conceptos', pesoConceptosRedondeado);
     
-    console.log('Ponderaciones enviadas:', {
+    console.log('Sent weights:', {
         titulo: pesoTituloRedondeado,
         conceptos: pesoConceptosRedondeado
     });
@@ -175,7 +175,7 @@ const Buscador = () => {
 
 const buscarInstituciones = async () => {
     if (!codigoPais) {
-      alert("Por favor, selecciona un país.");
+      alert("Please select a country.");
       return;
     }
 
@@ -200,14 +200,14 @@ const buscarInstituciones = async () => {
             setMapCenter(paises[codigoPais].coordenadas);
         }
 
-        console.log("URL de búsqueda:", url);
-        console.log("Filtros guardados:", filtrosLocales);
-        console.log('Ponderaciones:', ponderaciones);
+    console.log("Search URL:", url);
+    console.log("Saved filters:", filtrosLocales);
+    console.log('Weights:', ponderaciones);
 
         const response = await fetch(url);
 
         if (!response.ok) {
-            throw new Error("Error al obtener las instituciones");
+            throw new Error("Error fetching institutions");
         }
 
         const data = await response.json();
@@ -215,7 +215,7 @@ const buscarInstituciones = async () => {
         
         // Mostrar estadísticas si es búsqueda multi-país
         if (codigoPais === 'TODOS' && data.distribucion_paises) {
-            console.log("📊 Distribución por países:", data.distribucion_paises);
+            console.log("📊 Country distribution:", data.distribucion_paises);
         }
         
     } catch (err) {
@@ -231,21 +231,21 @@ const buscarInstituciones = async () => {
   return (
     <div className="p-6 bg-gray-800 shadow-md rounded-lg border border-gray-700">
       <h2 className="text-lg font-semibold mb-4 text-green-300">
-        Buscar Instituciones
+        Search Institutions
       </h2>
 
       <div className="space-y-4">
-        {/* Selección de País */}
+        {/* Country selection */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Selecciona un país *
+            Select a country *
           </label>
           <select
             value={codigoPais}
             onChange={(e) => setCodigoPais(e.target.value)}
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            <option value="">-- Selecciona un país --</option>
+            <option value="">-- Select a country --</option>
             {Object.entries(paises).map(([codigo, { nombre }]) => (
               <option key={codigo} value={codigo}>
                 {nombre}
@@ -254,21 +254,21 @@ const buscarInstituciones = async () => {
           </select>
         </div>
 
-        {/* Palabra Clave */}
+        {/* Keyword */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Tema de investigación (opcional)
+            Research topic (optional)
           </label>
           <input
             type="text"
-            placeholder="Ej. Medicina, Machine Learning, Energía Solar..."
+            placeholder="e.g. Medicine, Machine Learning, Solar Energy..."
             value={palabraClave}
             onChange={(e) => setPalabraClave(e.target.value)}
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
-        {/* Botón para mostrar/ocultar filtros */}
+        {/* Toggle advanced filters */}
         <div className="flex justify-between items-center">
           <button
             type="button"
@@ -276,8 +276,8 @@ const buscarInstituciones = async () => {
             className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
           >
             {mostrarFiltros
-              ? "▲ Ocultar filtros"
-              : "▼ Mostrar filtros avanzados"}
+              ? "▲ Hide filters"
+              : "▼ Show advanced filters"}
           </button>
 
           {Object.values(filtrosLocales).some(
@@ -288,23 +288,23 @@ const buscarInstituciones = async () => {
               onClick={limpiarFiltros}
               className="text-sm text-red-400 hover:text-red-300 transition-colors"
             >
-              Limpiar filtros
+              Clear filters
             </button>
           )}
         </div>
 
         
 
-        {/* Filtros Avanzados */}
+        {/* Advanced Filters */}
         {mostrarFiltros && (
           <div className="space-y-4 p-4 bg-gray-700 rounded-md border border-gray-600">
             <h3 className="text-md font-medium text-gray-300 mb-2">
-              Filtros Avanzados
+              Advanced Filters
             </h3>
 
             <div>
               <label className="block text-sm font-medium mb-1 text-gray-300">
-                Nombre del Autor
+                Author name
               </label>
               <div className="relative">
                 <input
@@ -318,7 +318,7 @@ const buscarInstituciones = async () => {
                   onBlur={() =>
                     setTimeout(() => setShowAuthorSuggestions(false), 200)
                   }
-                  placeholder="Ingrese el nombre del autor"
+                  placeholder="Enter the author's name"
                   required
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
@@ -343,11 +343,11 @@ const buscarInstituciones = async () => {
               </div>
             </div>
 
-            {/* Filtro por Rango de Años */}
+            {/* Year Range Filter */}
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-sm font-medium mb-1 text-gray-300">
-                  Año desde
+                  Year from
                 </label>
                 <input
                   type="number"
@@ -363,7 +363,7 @@ const buscarInstituciones = async () => {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1 text-gray-300">
-                  Año hasta
+                  Year to
                 </label>
                 <input
                   type="number"
@@ -379,10 +379,10 @@ const buscarInstituciones = async () => {
               </div>
             </div>
 
-            {/* Filtro por Acceso Abierto */}
+            {/* Open Access Filter */}
             <div>
               <label className="block text-sm font-medium mb-1 text-gray-300">
-                Acceso Abierto
+                Open Access
               </label>
               <select
                 value={filtrosLocales.accesoAbierto}
@@ -391,20 +391,20 @@ const buscarInstituciones = async () => {
                 }
                 className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">Todos los artículos</option>
-                <option value="true">Solo acceso abierto</option>
-                <option value="false">Solo acceso restringido</option>
+                <option value="">All articles</option>
+                <option value="true">Open access only</option>
+                <option value="false">Restricted access only</option>
               </select>
             </div>
 
-            {/* Filtro por Citas Mínimas */}
+            {/* Minimum Citations Filter */}
             <div>
               <label className="block text-sm font-medium mb-1 text-gray-300">
-                Citas mínimas
+                Minimum citations
               </label>
               <input
                 type="number"
-                placeholder="Ej. 10"
+                placeholder="e.g. 10"
                 min="0"
                 value={filtrosLocales.citasMinimas}
                 onChange={(e) =>
@@ -413,10 +413,10 @@ const buscarInstituciones = async () => {
                 className="w-full px-3 py-2 bg-gray-600 border border-gray-500 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-             {/* Ponderación de Similitud */}
+             {/* Similarity Weighting */}
         <div className="p-4 bg-gray-700 rounded-md border border-gray-600">
           <label className="block text-sm font-medium mb-3 text-gray-300">
-            Ponderación de similitud
+            Similarity weighting
           </label>
           <div className="space-y-3">
             <input
@@ -429,32 +429,31 @@ const buscarInstituciones = async () => {
               className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
             />
             <div className="flex justify-between text-xs text-gray-400">
-              <span>Más peso a los conceptos</span>
-              <span>Más peso al Título</span>
+              <span>More weight on concepts</span>
+              <span>More weight on title</span>
             </div>
             <div className="text-center text-sm text-gray-300">
-              <span className="font-medium">Título: {(ponderaciones.peso_titulo * 100).toFixed(0)}%</span>
+              <span className="font-medium">Title: {(ponderaciones.peso_titulo * 100).toFixed(0)}%</span>
               <span className="mx-2">|</span>
-              <span className="font-medium">Conceptos: {(ponderaciones.peso_conceptos * 100).toFixed(0)}%</span>
+              <span className="font-medium">Concepts: {(ponderaciones.peso_conceptos * 100).toFixed(0)}%</span>
             </div>
           </div>
         </div>
           </div>
         )}
 
-        {/* Botón de búsqueda */}
+        {/* Search button */}
         <button
           onClick={buscarInstituciones}
           disabled={!codigoPais}
           className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-2 px-4 rounded-md transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-green-500"
         >
-          Buscar Obras
+          Search Works
         </button>
 
-        {/* Información sobre los filtros */}
+        {/* Filter info */}
         <div className="text-xs text-gray-400 text-center">
-          * Solo se mostrarán instituciones que tengan artículos según los
-          filtros aplicados
+          * Only institutions with articles matching the applied filters will be shown
         </div>
       </div>
     </div>

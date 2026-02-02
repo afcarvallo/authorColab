@@ -12,7 +12,7 @@ const RegisterPage = () => {
             to="/" 
             className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center justify-center"
           >
-            ← Volver al inicio
+            ← Back to home
           </Link>
         </div>
         
@@ -24,9 +24,9 @@ const RegisterPage = () => {
         {/* Información adicional */}
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            ¿Ya tienes una cuenta?{' '}
+            Already have an account?{' '}
             <button className="text-blue-600 hover:text-blue-800 font-medium">
-              Inicia sesión aquí
+              Sign in here
             </button>
           </p>
         </div>

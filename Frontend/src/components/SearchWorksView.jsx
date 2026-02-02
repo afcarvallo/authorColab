@@ -24,7 +24,7 @@ function SearchWorksView() {
           <details className="group">
             <summary className="flex justify-between items-center p-4 cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
               <h3 className="font-semibold text-lg">
-                Instituciones sin ubicación ({/* Aquí podrías pasar el count desde el contexto */})
+                Institutions without location ({/* Count could come from context */})
               </h3>
               <span className="transform group-open:rotate-180 transition-transform">
                 ▲

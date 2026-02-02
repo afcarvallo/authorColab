@@ -66,18 +66,18 @@ const ListaInstitucionesNormal = ({ onSelectInstitution }) => {
   const textoFiltros = () => {
     const partes = [];
     if (consulta) partes.push(`"${consulta}"`);
-    if (filtros.autor) partes.push(`Autor: ${filtros.autor}`);
+    if (filtros.autor) partes.push(`Author: ${filtros.autor}`);
     if (filtros.anioDesde || filtros.anioHasta) {
       partes.push(
-        `Años: ${filtros.anioDesde || ""}-${filtros.anioHasta || ""}`
+        `Years: ${filtros.anioDesde || ""}-${filtros.anioHasta || ""}`
       );
     }
     if (filtros.accesoAbierto !== undefined) {
       partes.push(
-        filtros.accesoAbierto ? "Acceso abierto" : "Acceso restringido"
+        filtros.accesoAbierto ? "Open access" : "Restricted access"
       );
     }
-    if (filtros.citasMinimas) partes.push(`Mín. ${filtros.citasMinimas} citas`);
+    if (filtros.citasMinimas) partes.push(`Min. ${filtros.citasMinimas} citations`);
 
     return partes.length > 0 ? ` (${partes.join(", ")})` : "";
   };
@@ -87,9 +87,9 @@ const ListaInstitucionesNormal = ({ onSelectInstitution }) => {
       <div className="h-full flex items-center justify-center">
         <div className="text-gray-500 text-center">
           <div className="text-4xl mb-4">🏛️</div>
-          <p>No se encontraron instituciones</p>
+          <p>No institutions found</p>
           <p className="text-sm mt-2">
-            Realiza una búsqueda para ver resultados
+            Run a search to see results
           </p>
         </div>
       </div>
@@ -103,10 +103,10 @@ const ListaInstitucionesNormal = ({ onSelectInstitution }) => {
         <div className="flex justify-between items-center">
           <div>
             <h3 className="font-semibold text-gray-800 text-lg">
-              🏛️ Instituciones encontradas
+              🏛️ Institutions found
             </h3>
             <p className="text-sm text-gray-600 mt-1">
-              {instituciones.length} instituciones{textoFiltros()}
+              {instituciones.length} institutions{textoFiltros()}
             </p>
           </div>
           <div className="text-sm text-gray-500">
@@ -137,7 +137,7 @@ const ListaInstitucionesNormal = ({ onSelectInstitution }) => {
                       </h4>
                       {!institucion.tiene_geo && (
                         <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded flex-shrink-0">
-                          Sin ubicación
+                          No location
                         </span>
                       )}
                     </div>
@@ -145,7 +145,7 @@ const ListaInstitucionesNormal = ({ onSelectInstitution }) => {
                     <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-1">
                       <span className="flex items-center space-x-1">
                         <span>📚</span>
-                        <span>{institucion.total_trabajos || 0} trabajos</span>
+                        <span>{institucion.total_trabajos || 0} works</span>
                       </span>
 
                       {institucion.geo?.city && (
@@ -174,7 +174,7 @@ const ListaInstitucionesNormal = ({ onSelectInstitution }) => {
                       <div className="mt-1">
                         <span className="inline-flex items-center text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded">
                           <span className="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-                          Relevancia: {formatearSimilitud(institucion)}
+                          Relevance: {formatearSimilitud(institucion)}
                         </span>
                       </div>
                     )}
@@ -196,9 +196,9 @@ const ListaInstitucionesNormal = ({ onSelectInstitution }) => {
                 onClick={cargarMasInstituciones}
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm w-full"
               >
-                Cargar más (
+                Load more (
                 {institucionesOrdenadas.length - institucionesVisibles}{" "}
-                restantes)
+                remaining)
               </button>
             </div>
           )}

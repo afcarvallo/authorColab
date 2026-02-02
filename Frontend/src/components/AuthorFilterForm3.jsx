@@ -115,14 +115,14 @@ const AuthorFilterForm3 = () => {
   return (
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
       <h2 className="text-lg font-semibold mb-4 text-green-300">
-        Buscar Autores Similares
+        Search Similar Authors
       </h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Campo de nombre del autor con autocompletado */}
+        {/* Author name field with autocomplete */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Nombre del Autor
+            Author name
           </label>
           <div className="relative">
             <input
@@ -131,7 +131,7 @@ const AuthorFilterForm3 = () => {
               onChange={handleAuthorInputChange}
               onFocus={() => authorName.length >= 2 && setShowAuthorSuggestions(true)}
               onBlur={() => setTimeout(() => setShowAuthorSuggestions(false), 200)}
-              placeholder="Ingrese el nombre del autor"
+              placeholder="Enter the author's name"
               required
               className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
@@ -154,10 +154,10 @@ const AuthorFilterForm3 = () => {
           </div>
         </div>
 
-        {/* Cantidad de autores similares */}
+        {/* Number of similar authors */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Cantidad de Autores Similares
+            Number of Similar Authors
           </label>
           <input
             type="number"
@@ -169,17 +169,17 @@ const AuthorFilterForm3 = () => {
           />
         </div>
 
-        {/* Filtro por país */}
+        {/* Country filter */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            País
+            Country
           </label>
           <select
             value={selectedCountry}
             onChange={(e) => setSelectedCountry(e.target.value)}
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            <option value="">Todos los países</option>
+            <option value="">All countries</option>
             {countrySuggestions.map((country) => (
               <option key={country} value={country}>
                 {country}
@@ -188,10 +188,10 @@ const AuthorFilterForm3 = () => {
           </select>
         </div>
 
-        {/* Filtro por institución con autocompletado */}
+        {/* Institution filter with autocomplete */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Institución
+            Institution
           </label>
           <div className="relative">
             <input
@@ -200,7 +200,7 @@ const AuthorFilterForm3 = () => {
               onChange={handleInstitutionInputChange}
               onFocus={() => selectedInstitution.length >= 2 && setShowInstitutionSuggestions(true)}
               onBlur={() => setTimeout(() => setShowInstitutionSuggestions(false), 200)}
-              placeholder="Ingrese nombre de institución"
+              placeholder="Enter institution name"
               className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             {showInstitutionSuggestions && institutionSuggestions.length > 0 && (
@@ -219,14 +219,14 @@ const AuthorFilterForm3 = () => {
           </div>
         </div>
 
-        {/* Filtro por rango de colaboraciones */}
+        {/* Collaboration range filter */}
         <div>
   <label className="block text-sm font-medium mb-2 text-gray-300">
-    Rango de Colaboraciones
+    Collaboration Range
   </label>
   <div className="space-y-2 mb-2">
     <div className="flex items-center gap-2">
-      <span className="text-gray-400 text-sm w-16">Mínimo:</span>
+      <span className="text-gray-400 text-sm w-16">Minimum:</span>
       <input
         type="number"
         placeholder="0"
@@ -237,10 +237,10 @@ const AuthorFilterForm3 = () => {
       />
     </div>
     <div className="flex items-center gap-2">
-      <span className="text-gray-400 text-sm w-16">Máximo:</span>
+      <span className="text-gray-400 text-sm w-16">Maximum:</span>
       <input
         type="number"
-        placeholder="Sin límite"
+        placeholder="No limit"
         value={collaborationMax}
         onChange={(e) => setCollaborationMax(e.target.value)}
         min="0"
@@ -249,18 +249,18 @@ const AuthorFilterForm3 = () => {
     </div>
   </div>
   <div className="text-xs text-gray-400">
-    Dejar vacío para no filtrar por colaboraciones
+    Leave empty to avoid filtering by collaborations
   </div>
 </div>
 
-        {/* Botón de envío */}
+        {/* Submit button */}
         <div className="pt-4">
           <button 
             type="submit" 
             disabled={loading}
             className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-800 text-white py-2 px-4 rounded-md transition-colors font-medium"
           >
-            {loading ? 'Buscando...' : 'Buscar Autores Similares'}
+            {loading ? 'Searching...' : 'Search Similar Authors'}
           </button>
         </div>
       </form>

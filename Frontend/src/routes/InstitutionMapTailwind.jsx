@@ -68,7 +68,7 @@ const InstitutionMap = () => {
           marker.bindTooltip(`
             <strong>${institucion.nombre}</strong><br>
             ${geo.city ? `Ciudad: ${geo.city}<br>` : ''}
-            ${institucion.total_trabajos ? `Trabajos: ${institucion.total_trabajos}` : ''}
+            ${institucion.total_trabajos ? `Works: ${institucion.total_trabajos}` : ''}
           `, { permanent: false, direction: 'top' });
           
           // Evento hover con toda la información
@@ -136,7 +136,7 @@ const InstitutionMap = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
-        <div className="text-lg text-gray-600">Cargando instituciones...</div>
+        <div className="text-lg text-gray-600">Loading institutions...</div>
       </div>
     );
   }
@@ -170,7 +170,7 @@ const InstitutionMap = () => {
               <div className="flex-shrink-0">
                 <img 
                   src={institucionHover.metadata.image_url} 
-                  alt={`Logo de ${institucionHover.nombre}`}
+                  alt={`Logo of ${institucionHover.nombre}`}
                   className="w-24 h-24 object-contain border border-gray-200 rounded"
                 />
               </div>
@@ -190,7 +190,7 @@ const InstitutionMap = () => {
                   </tr>
                   <tr>
                     <th className="text-left py-2 px-3 font-medium text-gray-700 bg-gray-50">
-                      Ubicación:
+                      Location:
                     </th>
                     <td className="py-2 px-3 text-gray-600">
                       <div className="flex flex-col">
@@ -200,14 +200,14 @@ const InstitutionMap = () => {
                           {institucionHover.geo.country}
                         </span>
                         <span className="text-sm text-gray-500 mt-1">
-                          Coordenadas: {institucionHover.geo.latitude}, {institucionHover.geo.longitude}
+                          Coordinates: {institucionHover.geo.latitude}, {institucionHover.geo.longitude}
                         </span>
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <th className="text-left py-2 px-3 font-medium text-gray-700 bg-gray-50">
-                      Total trabajos:
+                      Total works:
                     </th>
                     <td className="py-2 px-3 text-gray-600">
                       {institucionHover.total_trabajos}
@@ -215,10 +215,10 @@ const InstitutionMap = () => {
                   </tr>
                   <tr>
                     <th className="text-left py-2 px-3 font-medium text-gray-700 bg-gray-50">
-                      Tipo:
+                      Type:
                     </th>
                     <td className="py-2 px-3 text-gray-600">
-                      {institucionHover.metadata?.type || 'No especificado'}
+                      {institucionHover.metadata?.type || 'Not specified'}
                     </td>
                   </tr>
                   <tr>
@@ -235,12 +235,12 @@ const InstitutionMap = () => {
                         >
                           {institucionHover.metadata.ror}
                         </a>
-                      ) : 'No disponible'}
+                      ) : 'Not available'}
                     </td>
                   </tr>
                   <tr>
                     <th className="text-left py-2 px-3 font-medium text-gray-700 bg-gray-50">
-                      Trabajos ejemplo:
+                      Sample works:
                     </th>
                     <td className="py-2 px-3 text-gray-600">
                       {institucionHover.trabajos_ejemplo?.length > 0 ? (
@@ -250,7 +250,7 @@ const InstitutionMap = () => {
                           ))}
                         </ul>
                       ) : (
-                        <span className="text-gray-500">No disponible</span>
+                        <span className="text-gray-500">Not available</span>
                       )}
                     </td>
                   </tr>

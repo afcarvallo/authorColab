@@ -15,47 +15,47 @@ const RegisterForm = () => {
 
   const [errors, setErrors] = useState({});
 
-  // Lista de países
+  // Country list
   const paises = [
-    'Argentina', 'Bolivia', 'Brasil', 'Chile', 'Colombia', 'Costa Rica', 
-    'Cuba', 'Ecuador', 'El Salvador', 'España', 'Estados Unidos', 'Guatemala',
-    'Honduras', 'México', 'Nicaragua', 'Panamá', 'Paraguay', 'Perú', 
-    'Puerto Rico', 'República Dominicana', 'Uruguay', 'Venezuela'
+    'Argentina', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Costa Rica', 
+    'Cuba', 'Ecuador', 'El Salvador', 'Spain', 'United States', 'Guatemala',
+    'Honduras', 'Mexico', 'Nicaragua', 'Panama', 'Paraguay', 'Peru', 
+    'Puerto Rico', 'Dominican Republic', 'Uruguay', 'Venezuela'
   ];
 
-  // Lista de intereses
+  // Interests list
   const listaIntereses = [
-    'Tecnología', 'Ciencia', 'Arte', 'Música', 'Deportes', 'Viajes',
-    'Cocina', 'Lectura', 'Cine', 'Videojuegos', 'Fotografía', 'Naturaleza',
-    'Moda', 'Automóviles', 'Finanzas', 'Salud', 'Educación', 'Política'
+    'Technology', 'Science', 'Art', 'Music', 'Sports', 'Travel',
+    'Cooking', 'Reading', 'Film', 'Video Games', 'Photography', 'Nature',
+    'Fashion', 'Automotive', 'Finance', 'Health', 'Education', 'Politics'
   ];
 
-  // Lista de profesiones
+  // Profession list
   const profesiones = [
-    'Estudiante',
-    'Desarrollador',
-    'Diseñador',
-    'Ingeniero',
-    'Médico',
-    'Abogado',
-    'Contador',
-    'Profesor',
-    'Investigador',
-    'Arquitecto',
-    'Periodista',
+    'Student',
+    'Developer',
+    'Designer',
+    'Engineer',
+    'Doctor',
+    'Lawyer',
+    'Accountant',
+    'Teacher',
+    'Researcher',
+    'Architect',
+    'Journalist',
     'Marketing',
-    'Ventas',
-    'Recursos Humanos',
-    'Gerente',
-    'Emprendedor',
-    'Otro'
+    'Sales',
+    'Human Resources',
+    'Manager',
+    'Entrepreneur',
+    'Other'
   ];
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     
     if (type === 'checkbox') {
-      // Manejar intereses (checkbox múltiple)
+      // Handle interests (multi-select checkbox)
       setFormData(prev => ({
         ...prev,
         intereses: checked 
@@ -69,7 +69,7 @@ const RegisterForm = () => {
       }));
     }
 
-    // Limpiar error del campo cuando el usuario empiece a escribir
+    // Clear field error when the user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -81,57 +81,57 @@ const RegisterForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Validar nombre
+    // Validate first name
     if (!formData.nombre.trim()) {
-      newErrors.nombre = 'El nombre es obligatorio';
+      newErrors.nombre = 'First name is required';
     } else if (formData.nombre.length < 2) {
-      newErrors.nombre = 'El nombre debe tener al menos 2 caracteres';
+      newErrors.nombre = 'First name must be at least 2 characters';
     }
 
-    // Validar apellido
+    // Validate last name
     if (!formData.apellido.trim()) {
-      newErrors.apellido = 'El apellido es obligatorio';
+      newErrors.apellido = 'Last name is required';
     }
 
-    // Validar país
+    // Validate country
     if (!formData.pais) {
-      newErrors.pais = 'Debe seleccionar un país';
+      newErrors.pais = 'Please select a country';
     }
 
-    // Validar intereses
+    // Validate interests
     if (formData.intereses.length === 0) {
-      newErrors.intereses = 'Selecciona al menos un interés';
+      newErrors.intereses = 'Select at least one interest';
     }
 
-    // Validar profesión
+    // Validate profession
     if (!formData.profesion) {
-      newErrors.profesion = 'Debe seleccionar una profesión';
+      newErrors.profesion = 'Please select a profession';
     }
 
-    // Validar institución
+    // Validate institution
     if (!formData.institucion.trim()) {
-      newErrors.institucion = 'La institución es obligatoria';
+      newErrors.institucion = 'Institution is required';
     }
 
-    // Validar email
+    // Validate email
     if (!formData.email.trim()) {
-      newErrors.email = 'El email es obligatorio';
+      newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'El formato del email no es válido';
+      newErrors.email = 'Email format is invalid';
     }
 
-    // Validar contraseña
+    // Validate password
     if (!formData.password) {
-      newErrors.password = 'La contraseña es obligatoria';
+      newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
-      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+      newErrors.password = 'Password must be at least 6 characters';
     }
 
-    // Validar confirmación de contraseña
+    // Validate password confirmation
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Confirma tu contraseña';
+      newErrors.confirmPassword = 'Confirm your password';
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Las contraseñas no coinciden';
+      newErrors.confirmPassword = 'Passwords do not match';
     }
 
     return newErrors;
@@ -142,11 +142,11 @@ const RegisterForm = () => {
     const formErrors = validateForm();
     
     if (Object.keys(formErrors).length === 0) {
-      // Formulario válido, proceder con el registro
-      console.log('Datos del formulario:', formData);
-      alert('¡Registro exitoso! Revisa la consola para ver los datos.');
+      // Valid form, proceed with registration
+      console.log('Form data:', formData);
+      alert('Registration successful! Check the console to see the data.');
       
-      // Aquí iría la lógica para enviar los datos al servidor
+      // Server submission logic would go here
       // await registerUser(formData);
     } else {
       setErrors(formErrors);
@@ -171,18 +171,18 @@ const RegisterForm = () => {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">
-        Crear Cuenta
+        Create Account
       </h2>
       <p className="text-center text-gray-600 mb-8">
-        Únete a nuestra comunidad y descubre todas las funcionalidades
+        Join our community and discover all features
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Nombre y Apellido */}
+        {/* First and last name */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nombre *
+              First Name *
             </label>
             <input
               type="text"
@@ -194,7 +194,7 @@ const RegisterForm = () => {
                   ? 'border-red-500 focus:ring-red-500' 
                   : 'border-gray-300 focus:ring-blue-500'
               }`}
-              placeholder="Tu nombre"
+              placeholder="Your first name"
             />
             {errors.nombre && (
               <p className="text-red-500 text-sm mt-1">{errors.nombre}</p>
@@ -203,7 +203,7 @@ const RegisterForm = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Apellido *
+              Last Name *
             </label>
             <input
               type="text"
@@ -215,7 +215,7 @@ const RegisterForm = () => {
                   ? 'border-red-500 focus:ring-red-500' 
                   : 'border-gray-300 focus:ring-blue-500'
               }`}
-              placeholder="Tu apellido"
+              placeholder="Your last name"
             />
             {errors.apellido && (
               <p className="text-red-500 text-sm mt-1">{errors.apellido}</p>
@@ -223,10 +223,10 @@ const RegisterForm = () => {
           </div>
         </div>
 
-        {/* País */}
+        {/* Country */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            País *
+            Country *
           </label>
           <select
             name="pais"
@@ -238,7 +238,7 @@ const RegisterForm = () => {
                 : 'border-gray-300 focus:ring-blue-500'
             }`}
           >
-            <option value="">Selecciona tu país</option>
+            <option value="">Select your country</option>
             {paises.map(pais => (
               <option key={pais} value={pais}>
                 {pais}
@@ -250,10 +250,10 @@ const RegisterForm = () => {
           )}
         </div>
 
-        {/* Intereses */}
+        {/* Interests */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Intereses * (Selecciona al menos uno)
+            Interests * (Select at least one)
           </label>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-48 overflow-y-auto p-3 border border-gray-300 rounded-lg">
             {listaIntereses.map(interes => (
@@ -273,15 +273,15 @@ const RegisterForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.intereses}</p>
           )}
           <p className="text-sm text-gray-500 mt-1">
-            Seleccionados: {formData.intereses.length} interés(es)
+            Selected: {formData.intereses.length} interest(s)
           </p>
         </div>
 
-        {/* Profesión e Institución */}
+        {/* Profession and institution */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Profesión *
+              Profession *
             </label>
             <select
               name="profesion"
@@ -293,7 +293,7 @@ const RegisterForm = () => {
                   : 'border-gray-300 focus:ring-blue-500'
               }`}
             >
-              <option value="">Selecciona tu profesión</option>
+              <option value="">Select your profession</option>
               {profesiones.map(profesion => (
                 <option key={profesion} value={profesion}>
                   {profesion}
@@ -307,7 +307,7 @@ const RegisterForm = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Institución *
+              Institution *
             </label>
             <input
               type="text"
@@ -319,7 +319,7 @@ const RegisterForm = () => {
                   ? 'border-red-500 focus:ring-red-500' 
                   : 'border-gray-300 focus:ring-blue-500'
               }`}
-              placeholder="Empresa o universidad"
+              placeholder="Company or university"
             />
             {errors.institucion && (
               <p className="text-red-500 text-sm mt-1">{errors.institucion}</p>
@@ -330,7 +330,7 @@ const RegisterForm = () => {
         {/* Email */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Correo Electrónico *
+            Email Address *
           </label>
           <input
             type="email"
@@ -342,18 +342,18 @@ const RegisterForm = () => {
                 ? 'border-red-500 focus:ring-red-500' 
                 : 'border-gray-300 focus:ring-blue-500'
             }`}
-            placeholder="tu.email@ejemplo.com"
+            placeholder="your.email@example.com"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email}</p>
           )}
         </div>
 
-        {/* Contraseña y Confirmación */}
+        {/* Password and confirmation */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Contraseña *
+              Password *
             </label>
             <input
               type="password"
@@ -365,7 +365,7 @@ const RegisterForm = () => {
                   ? 'border-red-500 focus:ring-red-500' 
                   : 'border-gray-300 focus:ring-blue-500'
               }`}
-              placeholder="Mínimo 6 caracteres"
+              placeholder="Minimum 6 characters"
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
@@ -374,7 +374,7 @@ const RegisterForm = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Confirmar Contraseña *
+              Confirm Password *
             </label>
             <input
               type="password"
@@ -386,7 +386,7 @@ const RegisterForm = () => {
                   ? 'border-red-500 focus:ring-red-500' 
                   : 'border-gray-300 focus:ring-blue-500'
               }`}
-              placeholder="Repite tu contraseña"
+              placeholder="Re-enter your password"
             />
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
@@ -394,25 +394,25 @@ const RegisterForm = () => {
           </div>
         </div>
 
-        {/* Botones */}
+        {/* Buttons */}
         <div className="flex space-x-4 pt-4">
           <button
             type="submit"
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-colors font-semibold text-lg"
           >
-            Registrarse
+            Sign Up
           </button>
           <button
             type="button"
             onClick={handleReset}
             className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg transition-colors font-semibold text-lg"
           >
-            Limpiar
+            Clear
           </button>
         </div>
 
         <p className="text-center text-gray-500 text-sm">
-          * Campos obligatorios
+          * Required fields
         </p>
       </form>
     </div>

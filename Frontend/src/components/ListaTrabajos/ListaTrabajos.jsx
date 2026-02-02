@@ -189,7 +189,7 @@ const ListaTrabajos = () => {
         const response = await fetch(url);
         
         if (!response.ok) {
-          throw new Error('Error al cargar trabajos');
+          throw new Error('Error loading works');
         }
         
         const data = await response.json();
@@ -216,11 +216,11 @@ const ListaTrabajos = () => {
   }, [works]);
 
   if (!institucionSeleccionada) {
-    return <div className="p-4 text-gray-600">Selecciona una institución en el mapa para ver sus trabajos.</div>;
+    return <div className="p-4 text-gray-600">Select an institution on the map to view its works.</div>;
   }
 
   if (loading || cargandoTrabajos) {
-    return <div className="p-4 text-center">Cargando trabajos...</div>;
+    return <div className="p-4 text-center">Loading works...</div>;
   }
 
   if (error) {
@@ -246,10 +246,10 @@ const ListaTrabajos = () => {
   return (
     <div className="w-1/2 p-4 overflow-y-auto">
       <h2 className="text-xl font-bold mb-4">
-        Trabajos de {nombre}
+        Works from {nombre}
         {consulta && (
           <span className="text-sm font-normal text-gray-600 ml-2">
-            (Filtrados por: "{consulta}")
+            (Filtered by: "{consulta}")
           </span>
         )}
       </h2>
@@ -258,9 +258,9 @@ const ListaTrabajos = () => {
         <>
           {consulta && (
             <div className="mb-4 p-3 bg-blue-50 rounded-lg text-sm">
-              <p>Se encontraron {trabajosLocales.length} trabajos relacionados con "{consulta}"</p>
+              <p>Found {trabajosLocales.length} works related to "{consulta}"</p>
               <p className="mt-1">
-                Resultados ordenados por relevancia (similitud con la consulta)
+                Results ordered by relevance (similarity to the query)
               </p>
             </div>
           )}
@@ -279,7 +279,7 @@ const ListaTrabajos = () => {
               disabled={paginaActual === 1}
               className="px-4 py-2 mx-1 border rounded-lg bg-gray-200 disabled:opacity-50 hover:bg-gray-300 transition-colors"
             >
-              Anterior
+              Previous
             </button>
 
             {numerosPagina.map((numero, index) => (
@@ -300,15 +300,15 @@ const ListaTrabajos = () => {
               disabled={paginaActual === totalPaginas || totalPaginas === 0}
               className="px-4 py-2 mx-1 border rounded-lg bg-gray-200 disabled:opacity-50 hover:bg-gray-300 transition-colors"
             >
-              Siguiente
+              Next
             </button>
           </div>
         </>
       ) : (
         <div className="p-4 text-center text-gray-500">
           {consulta 
-            ? `No se encontraron trabajos relacionados con "${consulta}"`
-            : 'Esta institución no tiene trabajos registrados o no se pudieron cargar'}
+            ? `No works found related to "${consulta}"`
+            : 'This institution has no works recorded or they could not be loaded'}
         </div>
       )}
     </div>

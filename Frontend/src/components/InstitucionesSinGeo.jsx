@@ -10,7 +10,7 @@ const InstitucionesSinGeo = () => {
   } = useContext(InstitucionesContext);
 
   if (loading) {
-    return <div className="p-4 text-center">Cargando instituciones...</div>;
+    return <div className="p-4 text-center">Loading institutions...</div>;
   }
 
   if (error) {
@@ -20,7 +20,7 @@ const InstitucionesSinGeo = () => {
   return (
     <div className="w-full">
       <h2 className="text-xl font-bold mb-4">
-        Instituciones sin ubicación en el mapa ({institucionesSinGeo?.length || 0})
+        Institutions without map location ({institucionesSinGeo?.length || 0})
       </h2>
       
       {institucionesSinGeo?.length > 0 ? (
@@ -36,10 +36,10 @@ const InstitucionesSinGeo = () => {
               <div className="text-sm text-gray-600 mt-2">
                 <p><strong>ID:</strong> {institucion.id || institucion._id}</p>
         
-                <p><strong>Tipo:</strong> {institucion.metadata?.type}</p>
+                <p><strong>Type:</strong> {institucion.metadata?.type}</p>
                 <p><strong>ROR:</strong> {institucion.metadata?.ror}</p>
                 
-                <p><strong>Trabajos:</strong> {institucion.works_count || institucion.total_trabajos || 0}</p>
+                <p><strong>Works:</strong> {institucion.works_count || institucion.total_trabajos || 0}</p>
                 
                 {institucion.ror && (
                   <p>
@@ -57,14 +57,14 @@ const InstitucionesSinGeo = () => {
               </div>
               
               <button className="mt-3 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm">
-                Ver {institucion.works_count || institucion.total_trabajos || 0} trabajos
+                View {institucion.works_count || institucion.total_trabajos || 0} works
               </button>
             </div>
           ))}
         </div>
       ) : (
         <div className="p-4 text-center text-gray-500">
-          No hay instituciones sin ubicación geográfica
+          No institutions without geographic location
         </div>
       )}
     </div>

@@ -100,12 +100,12 @@ const ListaTrabajosPanel = ({ onClose }) => {
           ? `${BACKEND_URL}/api/institucion/${encodeURIComponent(instId)}/trabajos${queryString ? `?${queryString}` : ''}`
           : `${BACKEND_URL}/api/institucion/${encodeURIComponent(paisSeleccionado)}/${encodeURIComponent(instId)}/trabajos${queryString ? `?${queryString}` : ''}`;
 
-        console.log('Cargando trabajos con URL:', url);
+        console.log('Loading works with URL:', url);
 
         const response = await fetch(url);
         
         if (!response.ok) {
-          throw new Error('Error al cargar trabajos');
+          throw new Error('Error loading works');
         }
         
         const data = await response.json();
@@ -115,7 +115,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
         
         // Mostrar información del país si es multi-país
         if (data.pais) {
-          console.log(`📍 Trabajos cargados desde: ${data.pais}`);
+          console.log(`📍 Works loaded from: ${data.pais}`);
         }
         
       } catch (err) {
@@ -142,26 +142,26 @@ const ListaTrabajosPanel = ({ onClose }) => {
     const partes = [];
     
     if (filtros.autor) {
-      partes.push(`Autor: "${filtros.autor}"`);
+      partes.push(`Author: "${filtros.autor}"`);
     }
     
     if (filtros.anioDesde || filtros.anioHasta) {
       const desde = filtros.anioDesde || '1900';
       const hasta = filtros.anioHasta || new Date().getFullYear();
-      partes.push(`Años: ${desde}-${hasta}`);
+      partes.push(`Years: ${desde}-${hasta}`);
     }
     
     if (filtros.accesoAbierto !== undefined && filtros.accesoAbierto !== '') {
-      partes.push(filtros.accesoAbierto === 'true' ? 'Acceso abierto' : 'Acceso restringido');
+      partes.push(filtros.accesoAbierto === 'true' ? 'Open access' : 'Restricted access');
     }
     
     if (filtros.citasMinimas) {
-      partes.push(`Mín. ${filtros.citasMinimas} citas`);
+      partes.push(`Min. ${filtros.citasMinimas} citations`);
     }
 
     // Agregar información de ponderación
     if (consulta) {
-      partes.push(`Ponderación: Título ${(ponderaciones.peso_titulo * 100).toFixed(0)}% / Conceptos ${(ponderaciones.peso_conceptos * 100).toFixed(0)}%`);
+      partes.push(`Weighting: Title ${(ponderaciones.peso_titulo * 100).toFixed(0)}% / Concepts ${(ponderaciones.peso_conceptos * 100).toFixed(0)}%`);
     }
     
     return partes.join(', ');
@@ -214,7 +214,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
           <button
             onClick={onClose}
             className="ml-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
-            aria-label="Cerrar panel"
+            aria-label="Close panel"
           >
             <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -226,10 +226,10 @@ const ListaTrabajosPanel = ({ onClose }) => {
         {consulta && (
           <div className="mb-2 p-3 bg-blue-50 border border-blue-100 rounded-lg">
             <p className="text-sm text-blue-800 font-medium">
-              Búsqueda: <span className="font-normal">"{consulta}"</span>
+              Search: <span className="font-normal">"{consulta}"</span>
             </p>
             <p className="text-xs text-blue-600 mt-1">
-              {trabajosLocales.length} trabajos encontrados
+              {trabajosLocales.length} works found
             </p>
           </div>
         )}
@@ -237,7 +237,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
         {/* Mostrar filtros aplicados */}
         {tieneFiltros && (
           <div className="mb-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-sm font-medium text-yellow-800">Filtros aplicados:</p>
+            <p className="text-sm font-medium text-yellow-800">Applied filters:</p>
             <p className="text-xs text-yellow-700 break-words mt-1">{textoFiltros}</p>
           </div>
         )}
@@ -248,7 +248,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
         <div className="flex-shrink-0 p-4 border-b border-gray-200">
           <div className="flex items-center space-x-3">
             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
-            <span className="text-gray-600">Cargando trabajos...</span>
+            <span className="text-gray-600">Loading works...</span>
           </div>
         </div>
       )}
@@ -282,14 +282,14 @@ const ListaTrabajosPanel = ({ onClose }) => {
             <div className="h-full flex flex-col items-center justify-center p-8 text-center">
               <div className="text-gray-400 text-6xl mb-4">📚</div>
               <h3 className="text-lg font-medium text-gray-700 mb-2">
-                No hay trabajos disponibles
+                No works available
               </h3>
               <p className="text-gray-500 text-sm max-w-md">
                 {consulta 
-                  ? `No se encontraron trabajos relacionados con "${consulta}"`
+                  ? `No works found related to "${consulta}"`
                   : tieneFiltros
-                  ? 'No hay trabajos que cumplan con los filtros aplicados'
-                  : 'Esta institución no tiene trabajos registrados en este país'}
+                  ? 'No works match the applied filters'
+                  : 'This institution has no works recorded in this country'}
               </p>
             </div>
           )
@@ -301,9 +301,9 @@ const ListaTrabajosPanel = ({ onClose }) => {
         <div className="flex-shrink-0 border-t border-gray-200 bg-gray-50 p-4">
           <div className="flex justify-between items-center">
             <div className="text-sm text-gray-600">
-              Página {paginaActual} de {totalPaginas}
+              Page {paginaActual} of {totalPaginas}
               <span className="ml-2">•</span>
-              <span className="ml-2">{trabajosLocales.length} trabajos totales</span>
+              <span className="ml-2">{trabajosLocales.length} total works</span>
             </div>
             
             <div className="flex items-center space-x-2">
@@ -312,7 +312,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
                 disabled={paginaActual === 1}
                 className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors text-sm"
               >
-                ← Anterior
+                ← Previous
               </button>
               
               <div className="flex space-x-1">
@@ -337,7 +337,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
                 disabled={paginaActual === totalPaginas || totalPaginas === 0}
                 className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors text-sm"
               >
-                Siguiente →
+                Next →
               </button>
             </div>
           </div>

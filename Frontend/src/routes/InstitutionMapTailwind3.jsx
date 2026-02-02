@@ -267,7 +267,7 @@ const InstitutionMap = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full bg-gray-50 rounded-lg">
-        <div className="text-lg text-gray-600">Cargando instituciones...</div>
+        <div className="text-lg text-gray-600">Loading institutions...</div>
       </div>
     );
   }
@@ -306,7 +306,7 @@ const InstitutionMap = () => {
                   <div className="flex-shrink-0">
                     <img
                       src={institucionHover.metadata.image_url}
-                      alt={`Logo de ${institucionHover.nombre}`}
+                      alt={`Logo of ${institucionHover.nombre}`}
                       className="w-12 h-12 object-contain border border-gray-200 rounded"
                     />
                   </div>
@@ -326,7 +326,7 @@ const InstitutionMap = () => {
                 <div>
                   <div className="flex items-start">
                     <span className="font-medium text-gray-700 w-20 flex-shrink-0">
-                      Ubicación:
+                      Location:
                     </span>
                     <div className="flex-1">
                       <span className="text-gray-600">
@@ -347,20 +347,20 @@ const InstitutionMap = () => {
                 {/* Total trabajos */}
                 <div className="flex items-center">
                   <span className="font-medium text-gray-700 w-20 flex-shrink-0">
-                    Trabajos:
+                    Works:
                   </span>
                   <span className="text-gray-600">
                     {institucionHover.total_trabajos || 0}
                   </span>
                 </div>
 
-                {/* Tipo */}
+                {/* Type */}
                 <div className="flex items-center">
                   <span className="font-medium text-gray-700 w-20 flex-shrink-0">
-                    Tipo:
+                    Type:
                   </span>
                   <span className="text-gray-600">
-                    {institucionHover.metadata?.type || "No especificado"}
+                    {institucionHover.metadata?.type || "Not specified"}
                   </span>
                 </div>
 

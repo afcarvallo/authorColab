@@ -64,7 +64,7 @@ const InstitucionesSinGeo = ({ onSelectInstitution }) => {
       <div className="h-full flex items-center justify-center">
         <div className="text-gray-500 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p>Cargando instituciones...</p>
+          <p>Loading institutions...</p>
         </div>
       </div>
     );
@@ -86,8 +86,8 @@ const InstitucionesSinGeo = ({ onSelectInstitution }) => {
       <div className="h-full flex items-center justify-center">
         <div className="text-gray-500 text-center">
           <div className="text-4xl mb-4">🏢</div>
-          <p>No hay instituciones sin ubicación geográfica</p>
-          <p className="text-sm mt-2">Todas las instituciones tienen ubicación registrada</p>
+          <p>No institutions without geographic location</p>
+          <p className="text-sm mt-2">All institutions have a registered location</p>
         </div>
       </div>
     );
@@ -100,14 +100,14 @@ const InstitucionesSinGeo = ({ onSelectInstitution }) => {
         <div className="flex justify-between items-center">
           <div>
             <h3 className="font-semibold text-gray-800 text-lg">
-              🏢 Instituciones sin ubicación
+              🏢 Institutions without location
             </h3>
             <p className="text-sm text-gray-600 mt-1">
-              {institucionesOrdenadas.length} instituciones sin coordenadas
+              {institucionesOrdenadas.length} institutions without coordinates
             </p>
           </div>
           <div className="text-sm text-gray-500 bg-amber-100 px-3 py-1 rounded-full">
-            📍 Sin ubicación
+            📍 No location
           </div>
         </div>
       </div>
@@ -139,14 +139,14 @@ const InstitucionesSinGeo = ({ onSelectInstitution }) => {
                           {nombre}
                         </h4>
                         <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded flex-shrink-0">
-                          Sin ubicación
+                          No location
                         </span>
                       </div>
 
                       <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-1">
                         <span className="flex items-center space-x-1">
                           <span>📚</span>
-                          <span>{totalTrabajos} trabajos</span>
+                          <span>{totalTrabajos} works</span>
                         </span>
 
                         {tipo && (
@@ -179,7 +179,7 @@ const InstitucionesSinGeo = ({ onSelectInstitution }) => {
                         <div className="mt-1">
                           <span className="inline-flex items-center text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded">
                             <span className="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-                            Relevancia: {formatearSimilitud(institucion)}
+                            Relevance: {formatearSimilitud(institucion)}
                           </span>
                         </div>
                       )}
@@ -200,7 +200,7 @@ const InstitucionesSinGeo = ({ onSelectInstitution }) => {
                       seleccionarInstitucion(institucion);
                     }}
                   >
-                    Ver {totalTrabajos} trabajo{totalTrabajos !== 1 ? 's' : ''}
+                    View {totalTrabajos} work{totalTrabajos !== 1 ? 's' : ''}
                   </button>
                 </div>
               );
@@ -213,9 +213,9 @@ const InstitucionesSinGeo = ({ onSelectInstitution }) => {
                 onClick={cargarMasInstituciones}
                 className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors text-sm w-full"
               >
-                Cargar más (
+                Load more (
                 {institucionesOrdenadas.length - institucionesVisibles}{" "}
-                restantes)
+                remaining)
               </button>
             </div>
           )}

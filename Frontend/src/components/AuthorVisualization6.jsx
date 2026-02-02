@@ -41,7 +41,7 @@ const AuthorVisualization3 = () => {
           {loading && (
             <div className="flex justify-center items-center h-32 w-full">
               <div className="text-base sm:text-lg text-gray-600">
-                Cargando resultados...
+                Loading results...
               </div>
             </div>
           )}
@@ -58,36 +58,36 @@ const AuthorVisualization3 = () => {
               <div
                 className="bg-gradient-to-r from-blue-600 to-purple-700 p-4 sm:p-6 rounded-lg text-white w-full cursor-pointer hover:opacity-90 transition-opacity"
                 onClick={handleMainAuthorClick}
-                title="Haz clic para ver el perfil completo de este autor"
+                title="Click to view this author's full profile"
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold mb-3 break-words flex items-center">
                       <span className="mr-2">🔍</span>
-                      Resultados para:
+                      Results for:
                       <span className="ml-2 underline decoration-dotted hover:decoration-solid">
                         {visualizationData.authorName}
                       </span>
                       <span className="ml-2 text-sm font-normal opacity-80">
-                        (ver perfil)
+                        (view profile)
                       </span>
                     </h2>
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-sm sm:text-base opacity-90">
                       <div className="flex items-center">
                         <span className="mr-2">📊</span>
-                        {visualizationData.similarAuthors.length} autores
-                        similares encontrados
+                        {visualizationData.similarAuthors.length} similar authors
+                        found
                       </div>
                       {/* <div className="flex items-center">
                         <span className="mr-2">🆔</span>
                         ID:{" "}
-                        {visualizationData.target_author_id || "No disponible"}
+                        {visualizationData.target_author_id || "Not available"}
                       </div>*/}
                       
                     </div>
                   </div>
                   <div className="text-lg opacity-80 hover:opacity-100">
-                    👁️ Ver perfil
+                    👁️ View profile
                   </div>
                 </div>
               </div>
@@ -96,7 +96,7 @@ const AuthorVisualization3 = () => {
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 w-full overflow-hidden">
                 <div className="p-4 sm:p-6">
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
-                    Autores Similares
+                    Similar Authors
                   </h3>
                 </div>
                 <div className="w-full overflow-x-auto">
@@ -104,24 +104,24 @@ const AuthorVisualization3 = () => {
                     <thead>
                       <tr className="bg-gray-50">
                         <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">
-                          Autor
+                          Author
                         </th>
                         <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">
-                          Similitud
+                          Similarity
                         </th>
                         <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">
-                          País
+                          Country
                         </th>
                         <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">
-                          Colaboraciones
+                          Collaborations
                         </th>
                         <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">
-                          Institución
+                          Institution
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {visualizationData.similarAuthors.map((author, index) => (
+                      {visualizationData.similarAuthors.map((author) => (
                         <tr
                           key={author["Author ID"]}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
@@ -165,7 +165,7 @@ const AuthorVisualization3 = () => {
                             {author.Institutions &&
                               author.Institutions.length > 1 && (
                                 <div className="text-xs text-gray-500 mt-1">
-                                  +{author.Institutions.length - 1} más
+                                  +{author.Institutions.length - 1} more
                                 </div>
                               )}
                           </td>
@@ -183,12 +183,12 @@ const AuthorVisualization3 = () => {
                   <div className="bg-white rounded-lg shadow-sm border border-gray-200 w-full overflow-hidden">
                     <div className="p-4 sm:p-6">
                       <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
-                        Conceptos de Investigación Más Comunes
+                        Most Common Research Concepts
                       </h3>
 
                       <p className="text-gray-600 text-sm mb-4">
-                        Los 10 conceptos más relevantes entre los autores
-                        similares, basados en el promedio ponderado de citas
+                        The 10 most relevant concepts among similar authors,
+                        based on the weighted average of citations
                       </p>
                     </div>
 
@@ -201,15 +201,15 @@ const AuthorVisualization3 = () => {
                             </th>
 
                             <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">
-                              Concepto
+                              Concept
                             </th>
 
                             <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">
-                              Promedio Ponderado
+                              Weighted Average
                             </th>
 
                             <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">
-                              Autores
+                              Authors
                             </th>
                           </tr>
                         </thead>
@@ -376,11 +376,11 @@ const AuthorVisualization3 = () => {
               <div className="text-center text-gray-500 max-w-md">
                 <div className="text-5xl mb-4">🔍</div>
                 <h3 className="text-xl font-semibold mb-2">
-                  Buscar Autores Similares
+                  Search Similar Authors
                 </h3>
                 <p className="break-words">
-                  Completa el formulario para encontrar autores con intereses de
-                  investigación similares
+                  Complete the form to find authors with similar research
+                  interests
                 </p>
               </div>
             </div>

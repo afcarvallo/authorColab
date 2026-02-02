@@ -23,7 +23,7 @@ const Search1 = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Búsqueda 1 ejecutada:', filters);
+    console.log('Search 1 executed:', filters);
     navigate("/mapa")
     // Aquí puedes agregar la lógica de búsqueda
   };
@@ -41,29 +41,29 @@ const Search1 = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4 text-blue-300">
-        Búsqueda de Productos
+        Product Search
       </h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Nombre */}
+        {/* Name */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Nombre del producto
+            Product name
           </label>
           <input
             type="text"
             name="nombre"
             value={filters.nombre}
             onChange={handleInputChange}
-            placeholder="Buscar por nombre..."
+            placeholder="Search by name..."
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Categoría */}
+        {/* Category */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Categoría
+            Category
           </label>
           <select
             name="categoria"
@@ -71,19 +71,19 @@ const Search1 = () => {
             onChange={handleInputChange}
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Todas las categorías</option>
-            <option value="electronica">Electrónica</option>
-            <option value="ropa">Ropa</option>
-            <option value="hogar">Hogar</option>
-            <option value="deportes">Deportes</option>
+            <option value="">All categories</option>
+            <option value="electronica">Electronics</option>
+            <option value="ropa">Clothing</option>
+            <option value="hogar">Home</option>
+            <option value="deportes">Sports</option>
           </select>
         </div>
 
-        {/* Rango de Fechas */}
+        {/* Date Range */}
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium mb-1 text-gray-300">
-              Fecha inicio
+              Start date
             </label>
             <input
               type="date"
@@ -95,7 +95,7 @@ const Search1 = () => {
           </div>
           <div>
             <label className="block text-sm font-medium mb-1 text-gray-300">
-              Fecha fin
+              End date
             </label>
             <input
               type="date"
@@ -107,10 +107,10 @@ const Search1 = () => {
           </div>
         </div>
 
-        {/* Estado */}
+        {/* Status */}
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-300">
-            Estado
+            Status
           </label>
           <div className="flex space-x-4">
             <label className="flex items-center">
@@ -122,7 +122,7 @@ const Search1 = () => {
                 onChange={handleInputChange}
                 className="text-blue-500"
               />
-              <span className="ml-2 text-gray-300">Activo</span>
+              <span className="ml-2 text-gray-300">Active</span>
             </label>
             <label className="flex items-center">
               <input
@@ -133,26 +133,26 @@ const Search1 = () => {
                 onChange={handleInputChange}
                 className="text-blue-500"
               />
-              <span className="ml-2 text-gray-300">Inactivo</span>
+              <span className="ml-2 text-gray-300">Inactive</span>
             </label>
           </div>
         </div>
 
-        {/* Botones */}
+        {/* Buttons */}
         <div className="flex space-x-3 pt-4">
           <button
             type="submit"
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors font-medium"
           
           >
-            Buscar
+            Search
           </button>
           <button
             type="button"
             onClick={handleReset}
             className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-md transition-colors font-medium"
           >
-            Limpiar
+            Clear
           </button>
         </div>
       </form>

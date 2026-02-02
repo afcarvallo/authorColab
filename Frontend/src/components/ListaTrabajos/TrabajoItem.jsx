@@ -10,16 +10,16 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
     }
   };
 
-  // Función para formatear la fecha
+  // Format date
   const formatDate = (dateString) => {
-    if (!dateString) return 'Fecha no disponible';
+    if (!dateString) return 'Date not available';
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
 
-  // Función para renderizar listas simples
+  // Render simple lists
   const renderSimpleList = (items, limit = 20) => {
-    if (!items || items.length === 0) return 'No disponible';
+    if (!items || items.length === 0) return 'Not available';
     
     const displayedItems = items.slice(0, limit);
     const remainingCount = items.length - limit;
@@ -32,15 +32,15 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
           </span>
         ))}
         {remainingCount > 0 && (
-          <span className="text-xs text-gray-500">+{remainingCount} más</span>
+          <span className="text-xs text-gray-500">+{remainingCount} more</span>
         )}
       </>
     );
   };
 
-  // Función para renderizar autores
+  // Render authors
   const renderAuthors = (authorships) => {
-    if (!authorships || authorships.length === 0) return 'Autor no disponible';
+    if (!authorships || authorships.length === 0) return 'Author not available';
     
     return authorships.map((author, index) => (
       <a 
@@ -51,20 +51,20 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
         className="text-blue-600 hover:underline mr-2"
         onClick={(e) => e.stopPropagation()}
       >
-        {author.author?.display_name || 'Autor desconocido'}
+        {author.author?.display_name || 'Unknown author'}
       </a>
     ));
   };
 
-  // Función para renderizar ubicación OA
+  // Render OA location
   const renderOALocation = (location) => {
-    if (!location) return 'No disponible';
+    if (!location) return 'Not available';
     
     return (
       <div className="text-sm">
         <div>
-          <span className="font-medium">Acceso abierto:</span> 
-          {location.is_oa ? ' Sí' : ' No'}
+          <span className="font-medium">Open access:</span> 
+          {location.is_oa ? ' Yes' : ' No'}
         </div>
         {location.landing_page_url && (
           <div>
@@ -76,7 +76,7 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
               className="text-blue-600 hover:underline"
               onClick={(e) => e.stopPropagation()}
             >
-              Enlace
+              Link
             </a>
           </div>
         )}
@@ -90,28 +90,28 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
               className="text-blue-600 hover:underline"
               onClick={(e) => e.stopPropagation()}
             >
-              Descargar
+              Download
             </a>
           </div>
         )}
         {location.source?.type && (
           <div>
-            <span className="font-medium">Tipo de fuente:</span> {location.source.type}
+            <span className="font-medium">Source type:</span> {location.source.type}
           </div>
         )}
       </div>
     );
   };
 
-  // Función para renderizar citas por año
+  // Render citations by year
   const renderCitationsByYear = (counts) => {
-    if (!counts || counts.length === 0) return 'No disponible';
+    if (!counts || counts.length === 0) return 'Not available';
     
     return (
       <div className="flex flex-wrap gap-1">
         {counts.map((item, index) => (
           <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded">
-            {item.year}: {item.cited_by_count} citas
+            {item.year}: {item.cited_by_count} citations
           </span>
         ))}
       </div>
@@ -126,31 +126,31 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
       {/* Versión resumida */}
       <div>
         <h3 className="font-semibold text-lg mb-2">
-          {trabajo.display_name || trabajo.title || 'Título no disponible'}
+          {trabajo.display_name || trabajo.title || 'Title not available'}
         </h3>
         
         {mostrarSimilitud && trabajo.similitud && (
           <div className="text-sm text-gray-600 mb-2">
-            <span className="font-medium">Relevancia: {(trabajo.similitud * 100).toFixed(1)}%</span>
+            <span className="font-medium">Relevance: {(trabajo.similitud * 100).toFixed(1)}%</span>
             {trabajo.similitud_titulo && trabajo.similitud_conceptos && (
               <span className="text-xs ml-2">
-                (Título: {(trabajo.similitud_titulo * 100).toFixed(1)}%, 
-                Conceptos: {(trabajo.similitud_conceptos * 100).toFixed(1)}%)
+                (Title: {(trabajo.similitud_titulo * 100).toFixed(1)}%, 
+                Concepts: {(trabajo.similitud_conceptos * 100).toFixed(1)}%)
               </span>
             )}
           </div>
         )}
         
         <div className="text-sm mb-2">
-          <span className="font-medium">Autores:</span>{' '}
+          <span className="font-medium">Authors:</span>{' '}
           <span className="flex flex-wrap">
             {renderAuthors(trabajo.authorships)}
           </span>
         </div>
         
         <div className="text-sm">
-          <span className="font-medium">Publicación:</span>{' '}
-          {trabajo.publication_date ? formatDate(trabajo.publication_date) : 'No disponible'} 
+          <span className="font-medium">Publication:</span>{' '}
+          {trabajo.publication_date ? formatDate(trabajo.publication_date) : 'Not available'} 
           {trabajo.publication_year && ` (${trabajo.publication_year})`}
         </div>
         
@@ -162,7 +162,7 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
               setExpandido(true);
             }}
           >
-            Ver más detalles
+            View more details
           </button>
         )}
       </div>
@@ -180,15 +180,15 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline ml-2"
               >
-                Ver en OpenAlex
+                View on OpenAlex
               </a>
             )}
           </div>
           
-          {/* Información de citas */}
+          {/* Citation information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
             <div>
-              <div className="font-medium">Citas totales:</div>
+              <div className="font-medium">Total citations:</div>
               <div>
                 {trabajo.cited_by_count || 0}
                 {trabajo.cited_by_api_url && (
@@ -198,87 +198,87 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:underline ml-2"
                   >
-                    Ver citas
+                    View citations
                   </a>
                 )}
               </div>
             </div>
             
             <div>
-              <div className="font-medium">Factor de impacto (FWCI):</div>
-              <div>{trabajo.fwci || 'No disponible'}</div>
+              <div className="font-medium">Impact factor (FWCI):</div>
+              <div>{trabajo.fwci || 'Not available'}</div>
             </div>
           </div>
           
-          {/* Ubicación OA */}
+          {/* OA location */}
           <div className="mb-3">
-            <div className="font-medium">Mejor ubicación de acceso abierto:</div>
+            <div className="font-medium">Best open access location:</div>
             {renderOALocation(trabajo.best_oa_location)}
           </div>
           
-          {/* Conceptos y temas */}
+          {/* Concepts and topics */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
             <div>
-              <div className="font-medium">Conceptos:</div>
+              <div className="font-medium">Concepts:</div>
               {renderSimpleList(trabajo.concepts?.map(c => c.display_name))}
             </div>
             
             <div>
-              <div className="font-medium">Tópicos:</div>
+              <div className="font-medium">Topics:</div>
               {renderSimpleList(trabajo.topics?.map(t => t.display_name))}
             </div>
           </div>
           
-          {/* Keywords y ODS */}
+          {/* Keywords and SDGs */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
             <div>
-              <div className="font-medium">Palabras clave:</div>
+              <div className="font-medium">Keywords:</div>
               {renderSimpleList(trabajo.keywords?.map(k => k.display_name))}
             </div>
             
             <div>
-              <div className="font-medium">ODS:</div>
+              <div className="font-medium">SDGs:</div>
               {renderSimpleList(trabajo.sustainable_development_goals?.map(sdg => sdg.display_name))}
             </div>
           </div>
           
-          {/* Citas por año */}
+          {/* Citations by year */}
           <div className="mb-3">
-            <div className="font-medium">Citas por año:</div>
+            <div className="font-medium">Citations by year:</div>
             {renderCitationsByYear(trabajo.counts_by_year)}
           </div>
           
-          {/* Información institucional */}
+          {/* Institutional information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3 text-sm">
             <div>
-              <div className="font-medium">Países distintos:</div>
-              <div>{trabajo.countries_distinct_count || 'No disponible'}</div>
+              <div className="font-medium">Distinct countries:</div>
+              <div>{trabajo.countries_distinct_count || 'Not available'}</div>
             </div>
             
             <div>
-              <div className="font-medium">Instituciones distintas:</div>
-              <div>{trabajo.institutions_distinct_count || 'No disponible'}</div>
+              <div className="font-medium">Distinct institutions:</div>
+              <div>{trabajo.institutions_distinct_count || 'Not available'}</div>
             </div>
           </div>
           
-          {/* Resumen */}
+          {/* Abstract */}
           {trabajo.abstract && (
             <div className="mb-3">
-              <div className="font-medium">Resumen:</div>
+              <div className="font-medium">Abstract:</div>
               <p className="text-sm text-gray-700">{trabajo.abstract}</p>
             </div>
           )}
           
-          {/* Fechas */}
+          {/* Dates */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 text-sm">
             <div>
-              <div className="font-medium">Fecha de creación:</div>
-              <div>{trabajo.created_date ? formatDate(trabajo.created_date) : 'No disponible'}</div>
+              <div className="font-medium">Created date:</div>
+              <div>{trabajo.created_date ? formatDate(trabajo.created_date) : 'Not available'}</div>
             </div>
             
             <div>
-              <div className="font-medium">Última actualización:</div>
-              <div>{trabajo.updated_date ? formatDate(trabajo.updated_date) : 'No disponible'}</div>
+              <div className="font-medium">Last updated:</div>
+              <div>{trabajo.updated_date ? formatDate(trabajo.updated_date) : 'Not available'}</div>
             </div>
           </div>
           
@@ -286,7 +286,7 @@ const TrabajoItem = ({ trabajo, mostrarSimilitud }) => {
             onClick={() => setExpandido(false)}
             className="mt-3 text-blue-600 hover:underline"
           >
-            Ver menos
+            View less
           </button>
         </div>
       )}

@@ -13,7 +13,7 @@ const AuthorVisualization3 = () => {
         <div className="w-full min-w-0">
           {loading && (
             <div className="flex justify-center items-center h-32 w-full">
-              <div className="text-base sm:text-lg text-gray-600">Cargando resultados...</div>
+              <div className="text-base sm:text-lg text-gray-600">Loading results...</div>
             </div>
           )}
           
@@ -28,20 +28,20 @@ const AuthorVisualization3 = () => {
               {/* Encabezado de resultados */}
               <div className="bg-gradient-to-r from-blue-600 to-purple-700 p-4 sm:p-6 rounded-lg text-white w-full">
                 <h2 className="text-xl sm:text-2xl font-bold mb-3 break-words">
-                  Resultados para: {visualizationData.authorName}
+                  Results for: {visualizationData.authorName}
                 </h2>
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-sm sm:text-base opacity-90">
                   <div className="flex items-center">
                     <span className="mr-2">📊</span>
-                    {visualizationData.similarAuthors.length} autores similares encontrados
+                    {visualizationData.similarAuthors.length} similar authors found
                   </div>
                   {visualizationData.metadata && (
                     <div className="flex items-center">
                       <span className="mr-2">🎯</span>
-                      Filtros aplicados: {
+                      Applied filters: {
                         Object.entries(visualizationData.metadata.filters_applied)
-                          .filter(([_, value]) => value !== null)
-                          .map(([key]) => key).join(', ') || 'Ninguno'
+                          .filter(([, value]) => value !== null)
+                          .map(([key]) => key).join(', ') || 'None'
                       }
                     </div>
                   )}
@@ -52,22 +52,22 @@ const AuthorVisualization3 = () => {
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 w-full overflow-hidden">
                 <div className="p-4 sm:p-6">
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
-                    Autores Similares
+                    Similar Authors
                   </h3>
                 </div>
                 <div className="w-full overflow-x-auto">
                   <table className="w-full min-w-full border-collapse">
                     <thead>
                       <tr className="bg-gray-50">
-                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Autor</th>
-                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Similitud</th>
-                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">País</th>
-                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Colaboraciones</th>
-                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Institución</th>
+                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Author</th>
+                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Similarity</th>
+                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Country</th>
+                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Collaborations</th>
+                        <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap">Institution</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {visualizationData.similarAuthors.map((author, index) => (
+                      {visualizationData.similarAuthors.map((author) => (
                         <tr key={author['Author ID']} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                           <td className="p-3 min-w-[200px]">
                             <div className="font-semibold text-gray-800 break-words">{author.Name}</div>
@@ -94,7 +94,7 @@ const AuthorVisualization3 = () => {
                             <div className="text-gray-700 break-words">{author['Primary Institution']}</div>
                             {author.Institutions && author.Institutions.length > 1 && (
                               <div className="text-xs text-gray-500 mt-1">
-                                +{author.Institutions.length - 1} más
+                                +{author.Institutions.length - 1} more
                               </div>
                             )}
                           </td>
@@ -189,8 +189,8 @@ const AuthorVisualization3 = () => {
             <div className="flex justify-center items-center h-full bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 mx-4 sm:mx-6 my-4 sm:my-6">
               <div className="text-center text-gray-500 max-w-md">
                 <div className="text-5xl mb-4">🔍</div>
-                <h3 className="text-xl font-semibold mb-2">Buscar Autores Similares</h3>
-                <p className="break-words">Completa el formulario para encontrar autores con intereses de investigación similares</p>
+                <h3 className="text-xl font-semibold mb-2">Search Similar Authors</h3>
+                <p className="break-words">Complete the form to find authors with similar research interests</p>
               </div>
             </div>
           )}

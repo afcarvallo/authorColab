@@ -19,7 +19,7 @@ const LoginForm = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
 
-    // Limpiar error del campo cuando el usuario empiece a escribir
+    // Clear field error when the user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -31,18 +31,18 @@ const LoginForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Validar email
+    // Validate email
     if (!formData.email.trim()) {
-      newErrors.email = 'El email es obligatorio';
+      newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'El formato del email no es válido';
+      newErrors.email = 'Email format is invalid';
     }
 
-    // Validar contraseña
+    // Validate password
     if (!formData.password) {
-      newErrors.password = 'La contraseña es obligatoria';
+      newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
-      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+      newErrors.password = 'Password must be at least 6 characters';
     }
 
     return newErrors;
@@ -55,21 +55,22 @@ const LoginForm = () => {
     if (Object.keys(formErrors).length === 0) {
       setIsLoading(true);
       
-      // Simular llamada a API
+      // Simulate API call
       try {
-        console.log('Datos de login:', formData);
-        // Aquí iría la lógica real de autenticación
+        console.log('Login data:', formData);
+        // Real authentication logic would go here
         // await loginUser(formData);
         
-        // Simular delay de red
+        // Simulate network delay
         await new Promise(resolve => setTimeout(resolve, 1500));
         
-        alert('¡Inicio de sesión exitoso!');
-        // Aquí redirigirías al usuario
+        alert('Sign-in successful!');
+        // Redirect the user here
         // navigate('/dashboard');
         
-      } catch (error) {
-        setErrors({ submit: 'Error al iniciar sesión. Verifica tus credenciales.' });
+      } catch (err) {
+        console.error('Sign-in error:', err);
+        setErrors({ submit: 'Sign-in failed. Check your credentials.' });
       } finally {
         setIsLoading(false);
       }
@@ -80,7 +81,7 @@ const LoginForm = () => {
 
   const handleDemoLogin = () => {
     setFormData({
-      email: 'demo@ejemplo.com',
+      email: 'demo@example.com',
       password: 'demopass',
       rememberMe: false
     });
@@ -90,10 +91,10 @@ const LoginForm = () => {
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-2">
-          Iniciar Sesión
+          Sign In
         </h2>
         <p className="text-gray-600">
-          Accede a tu cuenta para continuar
+          Access your account to continue
         </p>
       </div>
 
@@ -107,7 +108,7 @@ const LoginForm = () => {
         {/* Email */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Correo Electrónico *
+            Email Address *
           </label>
           <input
             type="email"
@@ -119,7 +120,7 @@ const LoginForm = () => {
                 ? 'border-red-500 focus:ring-red-500' 
                 : 'border-gray-300 focus:ring-blue-500'
             }`}
-            placeholder="tu.email@ejemplo.com"
+            placeholder="your.email@example.com"
             disabled={isLoading}
           />
           {errors.email && (
@@ -130,7 +131,7 @@ const LoginForm = () => {
         {/* Contraseña */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Contraseña *
+            Password *
           </label>
           <input
             type="password"
@@ -142,7 +143,7 @@ const LoginForm = () => {
                 ? 'border-red-500 focus:ring-red-500' 
                 : 'border-gray-300 focus:ring-blue-500'
             }`}
-            placeholder="Tu contraseña"
+            placeholder="Your password"
             disabled={isLoading}
           />
           {errors.password && (
@@ -150,7 +151,7 @@ const LoginForm = () => {
           )}
         </div>
 
-        {/* Recordarme y Olvidé contraseña */}
+        {/* Remember me and Forgot password */}
         <div className="flex items-center justify-between">
           <label className="flex items-center">
             <input
@@ -161,7 +162,7 @@ const LoginForm = () => {
               className="text-blue-500 rounded"
               disabled={isLoading}
             />
-            <span className="ml-2 text-sm text-gray-700">Recordarme</span>
+            <span className="ml-2 text-sm text-gray-700">Remember me</span>
           </label>
           
           <button 
@@ -169,11 +170,11 @@ const LoginForm = () => {
             className="text-sm text-blue-600 hover:text-blue-800 font-medium"
             disabled={isLoading}
           >
-            ¿Olvidaste tu contraseña?
+            Forgot your password?
           </button>
         </div>
 
-        {/* Botón de Login */}
+        {/* Login button */}
         <button
           type="submit"
           disabled={isLoading}
@@ -185,47 +186,47 @@ const LoginForm = () => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Iniciando sesión...
+              Signing in...
             </>
           ) : (
-            'Iniciar Sesión'
+            'Sign In'
           )}
         </button>
 
-        {/* Botón de Demo */}
+        {/* Demo button */}
         <button
           type="button"
           onClick={handleDemoLogin}
           disabled={isLoading}
           className="w-full bg-gray-500 hover:bg-gray-600 disabled:bg-gray-400 text-white py-3 px-6 rounded-lg transition-colors font-semibold text-lg"
         >
-          Usar Cuenta Demo
+          Use Demo Account
         </button>
       </form>
 
-      {/* Enlace a Registro */}
+      {/* Registration link */}
       <div className="mt-6 text-center">
         <p className="text-gray-600">
-          ¿No tienes una cuenta?{' '}
+          Don't have an account?{' '}
           <Link 
             to="/register" 
             className="text-blue-600 hover:text-blue-800 font-medium"
           >
-            Regístrate aquí
+            Sign up here
           </Link>
         </p>
       </div>
 
-      {/* Separador */}
+      {/* Divider */}
       <div className="mt-6 pt-6 border-t border-gray-200">
         <p className="text-center text-sm text-gray-500">
-          Al iniciar sesión, aceptas nuestros{' '}
+          By signing in, you agree to our{' '}
           <button className="text-blue-600 hover:text-blue-800 font-medium">
-            Términos de servicio
+            Terms of Service
           </button>{' '}
           y{' '}
           <button className="text-blue-600 hover:text-blue-800 font-medium">
-            Política de privacidad
+            Privacy Policy
           </button>
         </p>
       </div>

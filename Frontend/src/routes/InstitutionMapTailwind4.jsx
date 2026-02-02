@@ -272,7 +272,7 @@ const InstitutionMap = ({ onShowTrabajosPanel }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full bg-gray-50 rounded-lg">
-        <div className="text-lg text-gray-600">Cargando instituciones...</div>
+        <div className="text-lg text-gray-600">Loading institutions...</div>
       </div>
     );
   }
@@ -306,7 +306,7 @@ const InstitutionMap = ({ onShowTrabajosPanel }) => {
                   <div className="flex-shrink-0">
                     <img
                       src={institucionHover.metadata.image_url}
-                      alt={`Logo de ${institucionHover.nombre}`}
+                      alt={`Logo of ${institucionHover.nombre}`}
                       className="w-12 h-12 object-contain border border-gray-200 rounded"
                     />
                   </div>
@@ -326,7 +326,7 @@ const InstitutionMap = ({ onShowTrabajosPanel }) => {
                 <div>
                   <div className="flex items-start">
                     <span className="font-medium text-gray-700 w-20 flex-shrink-0">
-                      Ubicación:
+                      Location:
                     </span>
                     <div className="flex-1">
                       <span className="text-gray-600">
@@ -334,13 +334,13 @@ const InstitutionMap = ({ onShowTrabajosPanel }) => {
                           `${institucionHover.geo.city}, `}
                         {institucionHover.geo?.region &&
                           `${institucionHover.geo.region}, `}
-                        {institucionHover.geo?.country || "No disponible"}
+                        {institucionHover.geo?.country || "Not available"}
                       </span>
                       <div className="text-xs text-gray-500 mt-1">
                         {institucionHover.geo?.latitude &&
                         institucionHover.geo?.longitude
                           ? `${institucionHover.geo.latitude}, ${institucionHover.geo.longitude}`
-                          : "Coordenadas no disponibles"}
+                          : "Coordinates not available"}
                       </div>
                     </div>
                   </div>
@@ -349,20 +349,20 @@ const InstitutionMap = ({ onShowTrabajosPanel }) => {
                 {/* Total trabajos */}
                 <div className="flex items-center">
                   <span className="font-medium text-gray-700 w-20 flex-shrink-0">
-                    Trabajos:
+                    Works:
                   </span>
                   <span className="text-gray-600">
                     {institucionHover.total_trabajos || 0}
                   </span>
                 </div>
 
-                {/* Tipo */}
+                {/* Type */}
                 <div className="flex items-center">
                   <span className="font-medium text-gray-700 w-20 flex-shrink-0">
-                    Tipo:
+                    Type:
                   </span>
                   <span className="text-gray-600">
-                    {institucionHover.metadata?.type || "No especificado"}
+                    {institucionHover.metadata?.type || "Not specified"}
                   </span>
                 </div>
 
@@ -387,7 +387,7 @@ const InstitutionMap = ({ onShowTrabajosPanel }) => {
                 )}
               </div>
 
-              {/* Botón para ver trabajos */}
+              {/* Button to view works */}
               <div className="mt-4 pt-3 border-t border-gray-200">
                 <button
                   onClick={() => {
@@ -412,7 +412,7 @@ const InstitutionMap = ({ onShowTrabajosPanel }) => {
                       d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                     />
                   </svg>
-                  Ver trabajos ({institucionHover.total_trabajos || 0})
+                  View works ({institucionHover.total_trabajos || 0})
                 </button>
               </div>
             </div>

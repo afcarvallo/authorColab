@@ -58,7 +58,7 @@ const InstitutionMap = () => {
           marker.bindTooltip(`
             <strong>${institucion.nombre}</strong><br>
             ${geo.city ? `Ciudad: ${geo.city}<br>` : ''}
-            ${institucion.total_trabajos ? `Trabajos: ${institucion.total_trabajos}` : ''}
+            ${institucion.total_trabajos ? `Works: ${institucion.total_trabajos}` : ''}
           `, { permanent: false, direction: 'top' });
           
           // Evento hover con toda la información
@@ -107,7 +107,7 @@ const InstitutionMap = () => {
   }, [instituciones, mapCenter]);
 
   if (loading) {
-    return <div className="p-4 text-center">Cargando instituciones...</div>;
+    return <div className="p-4 text-center">Loading institutions...</div>;
   }
 
   if (error) {
@@ -150,22 +150,22 @@ const InstitutionMap = () => {
                 <td style={{ padding: '8px' }}>{institucionHover.id}</td>
               </tr>
               <tr style={{ borderBottom: '1px solid #ddd' }}>
-                <th style={{ textAlign: 'left', padding: '8px' }}>Ubicación:</th>
+                <th style={{ textAlign: 'left', padding: '8px' }}>Location:</th>
                 <td style={{ padding: '8px' }}>
                   {institucionHover.geo.city && `${institucionHover.geo.city}, `}
                   {institucionHover.geo.region && `${institucionHover.geo.region}, `}
                   {institucionHover.geo.country}
                   <br />
-                  Coordenadas: {institucionHover.geo.latitude}, {institucionHover.geo.longitude}
+                  Coordinates: {institucionHover.geo.latitude}, {institucionHover.geo.longitude}
                 </td>
               </tr>
               <tr style={{ borderBottom: '1px solid #ddd' }}>
-                <th style={{ textAlign: 'left', padding: '8px' }}>Total trabajos:</th>
+                <th style={{ textAlign: 'left', padding: '8px' }}>Total works:</th>
                 <td style={{ padding: '8px' }}>{institucionHover.total_trabajos}</td>
               </tr>
               <tr style={{ borderBottom: '1px solid #ddd' }}>
-                <th style={{ textAlign: 'left', padding: '8px' }}>Tipo:</th>
-                <td style={{ padding: '8px' }}>{institucionHover.metadata?.type || 'No especificado'}</td>
+                <th style={{ textAlign: 'left', padding: '8px' }}>Type:</th>
+                <td style={{ padding: '8px' }}>{institucionHover.metadata?.type || 'Not specified'}</td>
               </tr>
               <tr style={{ borderBottom: '1px solid #ddd' }}>
                 <th style={{ textAlign: 'left', padding: '8px' }}>ROR:</th>
@@ -174,11 +174,11 @@ const InstitutionMap = () => {
                     <a href={institucionHover.metadata.ror} target="_blank" rel="noopener noreferrer">
                       {institucionHover.metadata.ror}
                     </a>
-                  ) : 'No disponible'}
+                  ) : 'Not available'}
                 </td>
               </tr>
               <tr>
-                <th style={{ textAlign: 'left', padding: '8px' }}>Trabajos ejemplo:</th>
+                <th style={{ textAlign: 'left', padding: '8px' }}>Sample works:</th>
                 <td style={{ padding: '8px' }}>
                   {institucionHover.trabajos_ejemplo?.length > 0 ? (
                     <ul style={{ margin: 0, paddingLeft: '20px' }}>
@@ -186,7 +186,7 @@ const InstitutionMap = () => {
                         <li key={index}>{id}</li>
                       ))}
                     </ul>
-                  ) : 'No disponible'}
+                  ) : 'Not available'}
                 </td>
               </tr>
             </tbody>

@@ -52,7 +52,7 @@ Ensure you have the full project structure, including:
 
 ## 3. Backend: virtual environment and dependencies
 
-From the project root (`TT2-2026/`):
+From the project root (`authorColab/`):
 
 ```bash
 # Create virtual environment
@@ -105,7 +105,7 @@ mongod --dbpath "$(pwd)/db"
 Or with an explicit path, for example:
 
 ```bash
-mongod --dbpath /Users/andrescarvallo/Desktop/TT2-2026/db
+mongod --dbpath /Users/andrescarvallo/Desktop/authorColab/db
 ```
 
 Leave this terminal open while you use the application. The API connects to `mongodb://localhost:27017/` and uses the database `openalex_ia`.
@@ -157,7 +157,7 @@ Then open the frontend URL (e.g. http://localhost:5173) in your browser.
 ## Project structure
 
 ```
-TT2-2026/
+authorColab/
 ├── README.md
 ├── venv/                    # Python virtual environment (create with python3 -m venv venv)
 ├── db/                      # MongoDB data directory (used by mongod --dbpath)

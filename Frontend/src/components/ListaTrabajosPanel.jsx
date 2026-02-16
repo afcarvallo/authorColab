@@ -52,6 +52,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
   const [trabajosPorPagina] = useState(5); // Aumenté a 5 para panel más grande
   const [trabajosLocales, setTrabajosLocales] = useState([]);
   const [cargandoTrabajos, setCargandoTrabajos] = useState(false);
+  const [worksError, setWorksError] = useState(null);
 
   useEffect(() => {
     const cargarTrabajosInstitucion = async () => {
@@ -63,6 +64,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
 
       try {
         setCargandoTrabajos(true);
+        setWorksError(null);
         
         const params = new URLSearchParams();
         
@@ -103,13 +105,21 @@ const ListaTrabajosPanel = ({ onClose }) => {
         console.log('Loading works with URL:', url);
 
         const response = await fetch(url);
-        
-        if (!response.ok) {
-          throw new Error('Error loading works');
-        }
-        
         const data = await response.json();
-        const trabajosParseados = JSON.parse(data.trabajos);
+
+        if (!response.ok) {
+          throw new Error(data?.error || 'Error loading works');
+        }
+        const raw = data.trabajos;
+        const trabajosParseados = Array.isArray(raw)
+          ? raw
+          : (typeof raw === 'string' ? (() => {
+              try {
+                return JSON.parse(raw);
+              } catch (_) {
+                return [];
+              }
+            })() : []);
         setWorks(trabajosParseados);
         setTrabajosLocales(trabajosParseados);
         
@@ -121,6 +131,7 @@ const ListaTrabajosPanel = ({ onClose }) => {
       } catch (err) {
         console.error('Error:', err);
         setTrabajosLocales([]);
+        setWorksError(err.message || 'Error loading works');
       } finally {
         setCargandoTrabajos(false);
       }
@@ -254,9 +265,9 @@ const ListaTrabajosPanel = ({ onClose }) => {
       )}
 
       {/* Mensaje de error */}
-      {error && !cargandoTrabajos && (
+      {(error || worksError) && !cargandoTrabajos && (
         <div className="flex-shrink-0 p-4 border-b border-gray-200 bg-red-50">
-          <div className="text-red-600 text-sm">{error}</div>
+          <div className="text-red-600 text-sm">{worksError || error}</div>
         </div>
       )}
 

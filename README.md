@@ -180,6 +180,7 @@ authorColab/
 - **Backend can’t find `.pkl` or `.h5`:** Ensure `Backend/archivos_para_el_backend/` contains the `.pkl` and `.h5` files and run the backend from the project root: `python Backend/backend_final7.py`.
 - **MongoDB connection errors:** Ensure `mongod` is running with `--dbpath` pointing to the project’s `db/` folder and that no other MongoDB instance is using the same port (27017).
 - **Frontend can’t reach the API:** Check that the backend is running on port 5000 and that `Frontend/.env` has `VITE_BACKEND_URL=http://127.0.0.1:5000`.
+- **"0 institutions" or "Colección institutions_cl no existe":** You need the preloaded MongoDB data. Download **data.zip** from [Zenodo (Dataset de búsqueda de IA Latam)](https://zenodo.org/records/18421871) (~13.5 GB), unzip it in the project root to get the `db/` folder, then start MongoDB with: `mongod --dbpath /ruta/completa/authorColab/db`. If `mongod` uses another `--dbpath`, the Chile/Latam data will not be loaded.
 - **Port already in use:** Change the port in `backend_final7.py` (Flask) or in `Frontend/.env` and `vite.config.js` if needed, and ensure both sides use the same backend URL.
 
 ---

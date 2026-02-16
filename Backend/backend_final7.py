@@ -40,6 +40,15 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'archivos_pa
 client = MongoClient('mongodb://localhost:27017/')
 db = client['openalex_ia']
 
+# Diagnóstico: listar colecciones disponibles al iniciar
+try:
+    colls = db.list_collection_names()
+    inst_colls = [c for c in colls if c.startswith('institutions_')]
+    iw_colls = [c for c in colls if c.startswith('institution_works_')]
+    print(f"📂 MongoDB 'openalex_ia' - Colecciones: institutions_* = {inst_colls}, institution_works_* = {iw_colls}")
+except Exception as e:
+    print(f"⚠️  No se pudo listar colecciones de MongoDB: {e}")
+
 # Cargar el modelo de Sentence Transformers
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -322,45 +331,83 @@ def create_visualizations(target_author, result_df, target_author_id):
     )
     figures['similarity_plot'] = fig_similarity
     
-    # 2. Gráfico de distribución demográfica
+    # 2. Demographic distribution — styled donut charts
+    PALETTE_COUNTRY = ['#0d9488', '#ea580c', '#2563eb', '#059669', '#7c3aed']  # teal, amber, blue, emerald, violet
+    PALETTE_INSTITUTION = ['#6366f1', '#ec4899', '#14b8a6', '#f59e0b', '#8b5cf6']  # indigo, pink, teal, amber, purple
+    
     fig_demographics = make_subplots(
         rows=1, cols=2,
-        subplot_titles=("Distribución por País", "Distribución por Institución"),
-        specs=[[{"type": "pie"}, {"type": "pie"}]]
+        subplot_titles=("Country", "Institution"),
+        specs=[[{"type": "pie"}, {"type": "pie"}]],
+        horizontal_spacing=0.14,
+        vertical_spacing=0.18
     )
     
-    # Gráfico de países
+    # Country donut
     country_counts = result_df['Country'].value_counts()
     if not country_counts.empty:
+        n_countries = len(country_counts)
+        colors_country = [PALETTE_COUNTRY[i % len(PALETTE_COUNTRY)] for i in range(n_countries)]
         fig_demographics.add_trace(
             go.Pie(
                 labels=country_counts.index,
                 values=country_counts.values,
-                name="Países",
-                hole=0.4,
-                textinfo='label+percent'
+                name="Country",
+                hole=0.58,
+                textinfo='label+percent',
+                textposition='outside',
+                textfont=dict(size=12, color='#374151', family='Inter, system-ui, sans-serif'),
+                insidetextorientation='radial',
+                marker=dict(
+                    colors=colors_country,
+                    line=dict(width=2.5, color='#ffffff'),
+                ),
+                pull=[0.015] * n_countries,
+                hovertemplate='<b>%{label}</b><br>%{value} author(s) · %{percent}<extra></extra>',
             ),
             row=1, col=1
         )
     
-    # Gráfico de instituciones (mostrar solo las top 5)
+    # Institution donut (top 5)
     institution_counts = result_df['Primary Institution'].value_counts().head(5)
     if not institution_counts.empty:
+        n_inst = len(institution_counts)
+        colors_inst = [PALETTE_INSTITUTION[i % len(PALETTE_INSTITUTION)] for i in range(n_inst)]
         fig_demographics.add_trace(
             go.Pie(
                 labels=institution_counts.index,
                 values=institution_counts.values,
-                name="Instituciones",
-                hole=0.4,
-                textinfo='label+percent'
+                name="Institution",
+                hole=0.58,
+                textinfo='label+percent',
+                textposition='outside',
+                textfont=dict(size=11, color='#374151', family='Inter, system-ui, sans-serif'),
+                insidetextorientation='radial',
+                marker=dict(
+                    colors=colors_inst,
+                    line=dict(width=2.5, color='#ffffff'),
+                ),
+                pull=[0.015] * n_inst,
+                hovertemplate='<b>%{label}</b><br>%{value} author(s) · %{percent}<extra></extra>',
             ),
             row=1, col=2
         )
     
     fig_demographics.update_layout(
-        title_text=f'Distribución Demográfica',
-        height=400,
-        margin=dict(t=80)
+        title_text='Demographic Distribution',
+        title_x=0.02,
+        title_xanchor='left',
+        title_font=dict(size=14, color='#9ca3af', family='Inter, system-ui, sans-serif'),
+        height=440,
+        margin=dict(t=64, b=32, l=32, r=32),
+        showlegend=False,
+        paper_bgcolor='#fafafa',
+        plot_bgcolor='#fafafa',
+        uniformtext=dict(minsize=10, mode='hide'),
+    )
+    # Style subplot titles so they sit above the donuts (no overlap)
+    fig_demographics.update_annotations(
+        font=dict(size=13, color='#6b7280', family='Inter, system-ui, sans-serif')
     )
     figures['demographics_plot'] = fig_demographics
     
@@ -519,15 +566,20 @@ def buscar_instituciones_con_matrices(pais, consulta, umbral_similitud=0.3,
                 if not institucion_id:
                     continue
                 
-                # Obtener datos completos de la institución desde MongoDB
+                # Obtener datos completos desde MongoDB o fallback desde la matriz
                 if institucion_id not in instituciones_geo_cache:
                     institucion_completa = obtener_institucion_por_id(institucion_id, pais)
+                    if institucion_completa is None:
+                        institucion_completa = {
+                            'name': institucion.get('display_name') or institucion.get('name') or institucion_id,
+                            'geo': {},
+                            'type': institucion.get('type'),
+                            'ror': institucion.get('ror'),
+                            'image_url': institucion.get('image_url'),
+                        }
                     instituciones_geo_cache[institucion_id] = institucion_completa
                 
                 institucion_data = instituciones_geo_cache[institucion_id]
-                
-                if not institucion_data:
-                    continue
                 
                 if institucion_id not in instituciones_dict:
                     # INCLUIR INSTITUCIONES CON Y SIN GEO
@@ -584,10 +636,6 @@ def buscar_instituciones_con_matrices(pais, consulta, umbral_similitud=0.3,
                 })
         
         print(f"🏛️  Encontradas {len(instituciones_filtradas)} instituciones relevantes")
-        for inst_id, inst_data in instituciones_dict.items():
-            obras_filtradas = aplicar_filtros_a_obras(pais, inst_data['obras_relevantes'], filtros)
-            print(f"   - {inst_data['nombre']}: {len(inst_data['obras_relevantes'])} obras relevantes, {len(obras_filtradas)} después de filtros")
-        
         return instituciones_filtradas
         
     except Exception as e:
@@ -596,34 +644,58 @@ def buscar_instituciones_con_matrices(pais, consulta, umbral_similitud=0.3,
         traceback.print_exc()
         return buscar_instituciones_tradicional(pais, consulta, filtros)
 
+def _obtener_institucion_por_id_logged():
+    """Contador para no llenar la consola con 'no encontrada'."""
+    if not hasattr(_obtener_institucion_por_id_logged, 'count'):
+        _obtener_institucion_por_id_logged.count = 0
+    _obtener_institucion_por_id_logged.count += 1
+    return _obtener_institucion_por_id_logged.count
+
+
 def obtener_institucion_por_id(institution_id, pais):
     """
-    Obtener datos completos de una institución desde MongoDB
-    Busca en todas las colecciones de instituciones del país
+    Obtener datos completos de una institución desde MongoDB.
+    Prueba variantes del ID (string, con/sin prefijo I). Si no hay colecciones, retorna None sin llenar logs.
     """
-    # Primero intenta en el país específico
-    coleccion = f'institutions_{pais.lower()}'
-    if coleccion in db.list_collection_names():
-        institucion = db[coleccion].find_one({'_id': institution_id})
-        if institucion:
-            return institucion
-    
-    # Si no encuentra, busca en otros países de Latinoamérica
-    paises_latam = ['ar', 'bo', 'br', 'cl', 'co', 'cr', 'cu', 'ec', 'sv', 'gt', 
-                   'ht', 'hn', 'mx', 'ni', 'pa', 'py', 'pe', 'do', 'uy', 've']
-    
-    for p in paises_latam:
-        if p == pais.lower():
-            continue  # Ya buscamos en este
-            
-        coleccion = f'institutions_{p}'
+    # Variantes del ID por si en MongoDB está guardado distinto (I123 vs 123 vs ObjectId)
+    id_variants = [institution_id]
+    if isinstance(institution_id, str):
+        if institution_id.startswith('I') and institution_id[1:].isdigit():
+            id_variants.append(institution_id[1:])
+        elif institution_id.isdigit():
+            id_variants.append('I' + institution_id)
+
+    def buscar():
+        # Primero en el país específico
+        coleccion = f'institutions_{pais.lower()}'
         if coleccion in db.list_collection_names():
-            institucion = db[coleccion].find_one({'_id': institution_id})
-            if institucion:
-                print(f"📌 Institución {institution_id} encontrada en {p.upper()}")
-                return institucion
-    
-    print(f"❌ Institución {institution_id} no encontrada en ninguna colección")
+            for vid in id_variants:
+                institucion = db[coleccion].find_one({'_id': vid})
+                if institucion:
+                    return institucion
+        # Luego en otros países Latam
+        paises_latam = ['ar', 'bo', 'br', 'cl', 'co', 'cr', 'cu', 'ec', 'sv', 'gt',
+                        'ht', 'hn', 'mx', 'ni', 'pa', 'py', 'pe', 'do', 'uy', 've']
+        for p in paises_latam:
+            if p == pais.lower():
+                continue
+            coleccion = f'institutions_{p}'
+            if coleccion in db.list_collection_names():
+                for vid in id_variants:
+                    institucion = db[coleccion].find_one({'_id': vid})
+                    if institucion:
+                        return institucion
+        return None
+
+    institucion = buscar()
+    if institucion:
+        return institucion
+    # Log solo las primeras veces para no saturar
+    n = _obtener_institucion_por_id_logged()
+    if n <= 3:
+        print(f"❌ Institución {institution_id} no encontrada en ninguna colección (MongoDB sin datos de instituciones?)")
+    elif n == 4:
+        print(f"❌ (omitiendo más avisos de instituciones no encontradas)")
     return None
 
 def buscar_instituciones_tradicional(pais, consulta, filtros):
@@ -834,54 +906,71 @@ def obtener_instituciones_completas(pais):
 
 def buscar_instituciones_tradicional_sin_consulta(pais, filtros):
     """Búsqueda tradicional cuando no hay consulta semántica - INCLUYE SIN GEO"""
-    coleccion_instituciones = db[f'institutions_{pais.lower()}']
-    coleccion_relaciones = db[f'institution_works_{pais.lower()}']
+    pais_lower = pais.lower()
+    nombre_inst = f'institutions_{pais_lower}'
+    nombre_rel = f'institution_works_{pais_lower}'
+    
+    if nombre_inst not in db.list_collection_names():
+        print(f"⚠️  Colección '{nombre_inst}' no existe en MongoDB. ¿Tienes datos de Chile cargados?")
+        return []
+    if nombre_rel not in db.list_collection_names():
+        print(f"⚠️  Colección '{nombre_rel}' no existe en MongoDB.")
+        return []
+    
+    coleccion_instituciones = db[nombre_inst]
+    coleccion_relaciones = db[nombre_rel]
     
     instituciones = list(coleccion_instituciones.find({}))
+    print(f"📋 {nombre_inst}: {len(instituciones)} documentos")
     
     resultado = []
     for institucion in instituciones:
-        # Obtener work_ids de la institución
+        inst_id = institucion['_id']
+        # Probar con el tipo tal cual y como string (por si hay mezcla ObjectId/string)
         relaciones = list(coleccion_relaciones.find(
-            {'institution_id': institucion['_id']},
+            {'institution_id': inst_id},
             {'work_id': 1}
         ))
+        if not relaciones and inst_id is not None:
+            relaciones = list(coleccion_relaciones.find(
+                {'institution_id': str(inst_id)},
+                {'work_id': 1}
+            ))
         work_ids = [r['work_id'] for r in relaciones]
         
         # Aplicar filtros
         if filtros and work_ids:
             work_ids_filtrados = aplicar_filtros_trabajos(pais.lower(), work_ids, filtros)
             total_trabajos = len(work_ids_filtrados)
+            ids_ejemplo = work_ids_filtrados[:3]
         else:
             total_trabajos = len(work_ids)
+            ids_ejemplo = work_ids[:3]
         
-        if total_trabajos > 0:
-            # INCLUIR INSTITUCIONES CON Y SIN GEO
-            geo = institucion.get('geo', {})
-            tiene_geo_valido = (
-                geo and 
-                geo.get('latitude') is not None and 
-                geo.get('longitude') is not None and
-                not np.isnan(geo.get('latitude', np.nan)) and
-                not np.isnan(geo.get('longitude', np.nan))
-            )
-            
-            trabajos_ejemplo_ids = work_ids_filtrados[:3] if filtros and work_ids_filtrados else work_ids[:3]
-            
-            institucion_data = {
-                'id': institucion['_id'],
-                'nombre': institucion.get('name', 'Sin nombre'),
-                'geo': geo if tiene_geo_valido else {},
-                'total_trabajos': total_trabajos,
-                'trabajos_ejemplo': trabajos_ejemplo_ids,
-                'metadata': {
-                    'type': institucion.get('type'),
-                    'ror': institucion.get('ror'),
-                    'image_url': institucion.get('image_url')
-                },
-                'tiene_geo': tiene_geo_valido  # Para que el frontend sepa
-            }
-            resultado.append(institucion_data)
+        # Incluir todas las instituciones (con o sin trabajos) para que aparezcan en el mapa/lista
+        geo = institucion.get('geo', {})
+        tiene_geo_valido = (
+            geo and
+            geo.get('latitude') is not None and
+            geo.get('longitude') is not None and
+            not np.isnan(geo.get('latitude', np.nan)) and
+            not np.isnan(geo.get('longitude', np.nan))
+        )
+        trabajos_ejemplo_ids = ids_ejemplo
+        institucion_data = {
+            'id': institucion['_id'],
+            'nombre': institucion.get('name', 'Sin nombre'),
+            'geo': geo if tiene_geo_valido else {},
+            'total_trabajos': total_trabajos,
+            'trabajos_ejemplo': trabajos_ejemplo_ids,
+            'metadata': {
+                'type': institucion.get('type'),
+                'ror': institucion.get('ror'),
+                'image_url': institucion.get('image_url')
+            },
+            'tiene_geo': tiene_geo_valido
+        }
+        resultado.append(institucion_data)
     
     return resultado
 
@@ -1309,7 +1398,7 @@ def obtener_trabajos_institucion(pais, institution_id):
     """
     try:
         consulta = request.args.get('consulta')
-        top_n = request.args.get('top_n', type=int)
+        top_n = request.args.get('top_n', default=500, type=int) or 500
         peso_titulo = request.args.get('peso_titulo', default=0.5, type=float)
         peso_conceptos = request.args.get('peso_conceptos', default=0.5, type=float)
         umbral_similitud = request.args.get('umbral_similitud', 0.3, type=float)
@@ -1325,7 +1414,7 @@ def obtener_trabajos_institucion(pais, institution_id):
         
         filtros = {k: v for k, v in filtros.items() if v is not None}
         
-        print(f"🎯 Solicitando trabajos para institución {institution_id} en {pais}")
+        print(f"🎯 Solicitando trabajos para institución {institution_id} en {pais} (top_n={top_n})")
         print(f"📊 Parámetros - Consulta: '{consulta}', Umbral: {umbral_similitud}")
         
         # USAR MÉTODO CONSISTENTE CON MATRICES
@@ -1466,7 +1555,7 @@ def obtener_trabajos_institucion_multi_pais(institution_id):
     """
     try:
         consulta = request.args.get('consulta')
-        top_n = request.args.get('top_n', type=int)
+        top_n = request.args.get('top_n', default=500, type=int) or 500
         peso_titulo = request.args.get('peso_titulo', default=0.5, type=float)
         peso_conceptos = request.args.get('peso_conceptos', default=0.5, type=float)
         umbral_similitud = request.args.get('umbral_similitud', 0.3, type=float)
@@ -1482,7 +1571,7 @@ def obtener_trabajos_institucion_multi_pais(institution_id):
         
         filtros = {k: v for k, v in filtros.items() if v is not None}
         
-        print(f"🌎 Solicitando trabajos para institución {institution_id} en TODOS los países")
+        print(f"🌎 Solicitando trabajos para institución {institution_id} en TODOS los países (top_n={top_n})")
         print(f"📊 Parámetros - Consulta: '{consulta}', Umbral: {umbral_similitud}")
         
         # Buscar la institución en todos los países
@@ -1711,6 +1800,13 @@ def get_author_details(author_id):
     try:
         print(f"🔍 Buscando detalles del autor: {author_id}")
         
+        # Variantes del ID por si MongoDB guardó con otro formato (OpenAlex: A123 o 123)
+        id_variants = [author_id]
+        if author_id.startswith('A') and author_id[1:].isdigit():
+            id_variants.append(author_id[1:])  # sin prefijo A
+        elif author_id.isdigit():
+            id_variants.append('A' + author_id)  # con prefijo A
+        
         # Buscar en todas las colecciones de autores por país
         colecciones_autores = [col for col in db.list_collection_names() if col.startswith('authors_')]
         
@@ -1718,12 +1814,47 @@ def get_author_details(author_id):
         pais_encontrado = None
         
         for coleccion in colecciones_autores:
-            autor = db[coleccion].find_one({'_id': author_id})
-            if autor:
-                autor_encontrado = autor
-                pais_encontrado = coleccion.replace('authors_', '').upper()
-                print(f"✅ Autor encontrado en colección: {coleccion}")
+            for vid in id_variants:
+                autor = db[coleccion].find_one({'_id': vid})
+                if autor:
+                    autor_encontrado = autor
+                    pais_encontrado = coleccion.replace('authors_', '').upper()
+                    print(f"✅ Autor encontrado en colección: {coleccion}")
+                    break
+            if autor_encontrado:
                 break
+        
+        # Fallback: si no está en MongoDB pero sí en authors_df (PCA), devolver perfil básico
+        if not autor_encontrado and authors_df is not None and author_id_to_name is not None:
+            for vid in id_variants:
+                if vid in author_id_to_name:
+                    row = authors_df[authors_df['Author ID'] == vid].iloc[0]
+                    display_name = row['Name']
+                    inst_json = row.get('Institutions JSON', '[]')
+                    try:
+                        institutions = json.loads(inst_json) if isinstance(inst_json, str) else (inst_json or [])
+                    except Exception:
+                        institutions = []
+                    response_data = {
+                        'id': vid,
+                        'display_name': display_name,
+                        'countries': [row.get('Country', '')] if pd.notna(row.get('Country')) else [],
+                        'collaboration_count': int(row.get('Collaboration Count', 0)) if pd.notna(row.get('Collaboration Count')) else 0,
+                        'total_works': 0,
+                        'institutions': institutions,
+                        'works': [],
+                        'citation_stats': {},
+                        'concept_averages': [],
+                        'concepts_weighted_by_citations': [],
+                        'total_concepts': 0,
+                        'has_citations': False,
+                        'collaborations': [],
+                        'pais': None,
+                        'metadata': {},
+                        'from_fallback': True
+                    }
+                    print(f"✅ Autor devuelto desde fallback (authors_df): {display_name}")
+                    return jsonify(response_data)
         
         if not autor_encontrado:
             return jsonify({'error': f'Autor con ID {author_id} no encontrado'}), 404
